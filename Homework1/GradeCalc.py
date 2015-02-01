@@ -5,7 +5,8 @@ Craig Dazey
 Dr. Kiper
 1-30-15
 CSE 211
-Simple grade calculator
+Simple grade calculator using python
+Assignment 1
 '''
 
 inputFile = open('studentGrades.txt', 'r')
