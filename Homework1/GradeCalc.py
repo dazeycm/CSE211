@@ -1,29 +1,45 @@
 from statistics import *
+
+'''
+Craig Dazey
+Dr. Kiper
+1-30-15
+CSE 211
+Simple grade calculator
+'''
+
 inputFile = open('studentGrades.txt', 'r')
 outputFile = open('calculatedGrades.txt', 'w')
 
 for line in inputFile:
     parts = line.split()
-    parts = [int(parts[i]) if parts[i].isdigit() else parts[i] for i in range(11)]
+    parts = [int(parts[i]) if parts[i].isdigit() else parts[i] for i in range(11)]  #list comprehension to switch elements to ints if they're digits
 
     name = parts[0]
     quiz =  parts[1:4]
+    print(quiz)
     hw = parts[4:-2]
+    print(hw)
     exam = parts[-2:]
+    print(exam)
 
     quizScore = mean(quiz)
+    print(quizScore)
     hwScore = mean(hw)
+    print(hwScore)
     examScore = mean(exam)
+    print(examScore)
+    print()
 
     finalScore = quizScore * .2 + hwScore * .3 + examScore * .5
 
-    if finalScore > 90:
+    if finalScore >= 90:
         letterGrade = 'A'
-    elif finalScore > 80:
+    elif finalScore >= 80:
         letterGrade = 'B'
-    elif finalScore > 70:
+    elif finalScore >= 70:
         letterGrade = 'C'
-    elif finalScore > 60:
+    elif finalScore >= 60:
         letterGrade = 'D'
     else:
         letterGrade = 'F'
