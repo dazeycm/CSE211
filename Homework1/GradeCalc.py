@@ -17,19 +17,12 @@ for line in inputFile:
 
     name = parts[0]
     quiz =  parts[1:4]
-    print(quiz)
     hw = parts[4:-2]
-    print(hw)
     exam = parts[-2:]
-    print(exam)
 
     quizScore = mean(quiz)
-    print(quizScore)
     hwScore = mean(hw)
-    print(hwScore)
     examScore = mean(exam)
-    print(examScore)
-    print()
 
     finalScore = quizScore * .2 + hwScore * .3 + examScore * .5
 
