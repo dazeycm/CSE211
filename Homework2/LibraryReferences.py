@@ -42,24 +42,25 @@ def addBook(data):
     data = list(map(lambda x : x.split(': ')[1], data))
     toAdd = Book(data[1], data[2], data[3], data[4])
     myDict[data[0]] = toAdd
-    print(data)
 
 def addJournal(data):
     data = list(map(lambda x : x.split(': ')[1], data))
     toAdd = Journal(data[1], data[2], data[3], data[4], data[5], data[6], data[7])
     myDict[data[0]] = toAdd
-    print(data)
 
 def addConference(data):
     data = list(map(lambda x : x.split(': ')[1], data))
     toAdd = Conference(data[1], data[2], data[3], data[4], data[5], data[6])
     myDict[data[0]] = toAdd
-    print(data)
 
 
 
 if __name__ == '__main__':
     initDict()
-    while(True):
+    while('pig' != 'fly'):
+        print("List of keys: %s" % (', '.join(list(myDict.keys()))))
         key = input('Enter a key: ')
-        print('%s\t%s' % (key, myDict[key]))
+        try:
+            print('%s\t%s\n' % (key, myDict[key]))
+        except Exception:
+            print('You entered an invalid key!')
