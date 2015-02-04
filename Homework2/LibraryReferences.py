@@ -1,4 +1,4 @@
-from References import Book, Journal
+from References import Book, Journal, Conference
 
 '''
 Craig Dazey
@@ -14,13 +14,13 @@ def initDict():
     myDict = {}
     data = []
 
-    with open(r'ReferenceInfo', 'r') as file:
+    with open(r'Step3Data.txt', 'r') as file:
         for line in file:
-            line = line.strip('\n')
             if not line:
                 continue
+            line = line.strip('\n')
 
-            if line in ('Journal', 'Book', 'Reference'):
+            if line in ('Journal', 'Book', 'Conference'):
                 if data:
                     parseData(data)
                 data.clear()
@@ -35,19 +35,31 @@ def parseData(data):
         addBook(data[1:])
     elif data[0] == 'Journal':
         addJournal(data[1:])
+    elif data[0] == 'Conference':
+        addConference(data[1:])
 
 def addBook(data):
     data = list(map(lambda x : x.split(': ')[1], data))
-    authors = data[1].split(',')
-    toAdd = Book(data[1], authors, data[3], data[4])
+    toAdd = Book(data[1], data[2], data[3], data[4])
+    myDict[data[0]] = toAdd
     print(data)
 
 def addJournal(data):
     data = list(map(lambda x : x.split(': ')[1], data))
-    authors = data[1].split(',')
-    toAdd = Journal(data[1], authors, data[3], data[4], data[5], data[6], data[7])
+    toAdd = Journal(data[1], data[2], data[3], data[4], data[5], data[6], data[7])
+    myDict[data[0]] = toAdd
     print(data)
+
+def addConference(data):
+    data = list(map(lambda x : x.split(': ')[1], data))
+    toAdd = Conference(data[1], data[2], data[3], data[4], data[5], data[6])
+    myDict[data[0]] = toAdd
+    print(data)
+
 
 
 if __name__ == '__main__':
     initDict()
+    while(True):
+        key = input('Enter a key: ')
+        print('%s\t%s' % (key, myDict[key]))
