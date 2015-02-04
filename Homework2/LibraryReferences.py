@@ -38,11 +38,14 @@ def parseData(data):
 
 def addBook(data):
     data = list(map(lambda x : x.split(': ')[1], data))
-    toAdd = Book(data[0], data[1], data[2], data[3], data[4])
+    authors = data[1].split(',')
+    toAdd = Book(data[1], authors, data[3], data[4])
     print(data)
 
 def addJournal(data):
     data = list(map(lambda x : x.split(': ')[1], data))
+    authors = data[1].split(',')
+    toAdd = Journal(data[1], authors, data[3], data[4], data[5], data[6], data[7])
     print(data)
 
 
