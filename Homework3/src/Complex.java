@@ -1,3 +1,5 @@
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 /**
  * Created by Craig on 2/10/2015.
  */
@@ -31,11 +33,18 @@ public class Complex {
 
     public Complex multiply(Complex other)   {
         Complex c = new Complex();
+        c.setReal((this.real * other.real) - (this.complex * other.complex));
+        c.setComplex((this.real * other.complex) + (this.complex * other.real));
         return c;
     }
 
     public Complex divide(Complex other)   {
         Complex c = new Complex();
+        c.setReal(((this.real * other.real) + (this.complex * other.complex)) / ((Math.pow(other.real, 2) + Math.pow(other.complex, 2))));
+        c.setComplex(((this.complex * other.real) - (this.real * other.complex)) / ((Math.pow(other.real, 2) + Math.pow(other.complex, 2))));
+        if(Double.isNaN(c.getReal()) || Double.isNaN(c.getComplex()))   {
+            throw new IllegalArgumentException("Invalid input while dividing");
+        }
         return c;
     }
 
@@ -58,9 +67,9 @@ public class Complex {
     @Override
     public String toString()    {
         if(complex >= 0) {
-            return real + "+" + complex + "i";
+            return String.format("%.3f+%.3fi", real, complex);
         } else  {
-            return real + "" + complex + "i";
+            return String.format("%.3f%.3fi", real, complex);
         }
     }
 }
