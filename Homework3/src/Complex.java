@@ -1,7 +1,10 @@
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 /**
- * Created by Craig on 2/10/2015.
+ * Craig Dazey
+ * Dr. Kiper
+ * 2-10-2015
+ * CSE 211
+ * Complex number class that is tested using TDD and junit
+ * Assignment 3
  */
 public class Complex {
 
