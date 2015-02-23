@@ -87,9 +87,10 @@ public class TurtleSoup {
      */
     public static double calculateHeadingToPoint(double currentHeading, int currentX, int currentY,
                                                  int targetX, int targetY) {
-    	double theta = 90 - Math.toDegrees(Math.atan2(targetY - currentY, targetX - currentX));
-    	System.out.println(theta);
-    	return (360 + (theta - currentHeading)) % 360;
+    	double theta = Math.toDegrees(Math.atan2(targetY - currentY, targetX - currentX));
+    	double adjustedTheta = 90 - theta;		//subtract 90 because the heading points north and not east
+    	double correctedTheta = (360 + (adjustedTheta - currentHeading)) % 360;		//take into account current heading
+    	return correctedTheta;
     }
 
     /**
@@ -106,7 +107,15 @@ public class TurtleSoup {
      * @return list of heading adjustments between points, of size (# of points) - 1.
      */
     public static List<Double> calculateHeadings(List<Integer> xCoords, List<Integer> yCoords) {
-        throw new RuntimeException("implement me!");
+        ArrayList<Double> headings = new ArrayList<Double>();
+        for(int i = 0; i < xCoords.size() - 1; i++)	{
+        	if(i == 0)	{
+        		headings.add(calculateHeadingToPoint(0, xCoords.get(i), yCoords.get(i), xCoords.get(i + 1), yCoords.get(i + 1)));
+        	} else {
+        		headings.add(calculateHeadingToPoint(headings.get(i - 1), xCoords.get(i), yCoords.get(i), xCoords.get(i + 1), yCoords.get(i + 1)));
+        	}
+        }
+		return headings;
     }
 
     /**
@@ -130,9 +139,6 @@ public class TurtleSoup {
     public static void main(String args[]) {
         DrawableTurtle turtle = new DrawableTurtle();
 
-        calculateHeadingToPoint(0.0, 0, 0, 0, 1);
-        calculateHeadingToPoint(0.0, 0, 0, 1, 0);
-        calculateHeadingToPoint(1.0, 4, 5, 4, 6);
         //drawSquare(turtle, 40);
         //drawRegularPolygon(turtle, 5, 40);
 
