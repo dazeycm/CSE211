@@ -21,6 +21,19 @@ public class TurtleSoup {
         	turtle.turn(90);
         }
     }
+    
+    /**
+     * Draws a circle that is about the size of the diameter.
+     * 
+     * @param turtle the turtle to move
+     * @param diameter is not actually the diameter, but it's pretty close
+     */
+    public static void drawCircle(Turtle turtle, int diameter)	{
+    	for (int i = 0; i < 360/diameter; i++)	{
+    		turtle.forward(1);
+    		turtle.turn(diameter);
+    	}
+    }
 
     /**
      * Determine inside angles of a regular polygon.
@@ -138,12 +151,18 @@ public class TurtleSoup {
      */
     public static void main(String args[]) {
         DrawableTurtle turtle = new DrawableTurtle();
-
+        
+        
         //drawSquare(turtle, 40);
-        //drawRegularPolygon(turtle, 5, 40);
+        drawCircle(turtle, 10);
+        drawCircle(turtle, 10);
+        drawCircle(turtle, 10);
+        drawCircle(turtle, 10);
+        drawCircle(turtle, 10);
+        //drawRegularPolygon(turtle, 30, 40);
 
         // draw the window
-        //turtle.draw();
+        turtle.draw();
     }
 
 }
