@@ -6,6 +6,7 @@ package turtle;
 import java.lang.Math;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class TurtleSoup {
 
@@ -23,18 +24,46 @@ public class TurtleSoup {
     }
     
     /**
-     * Draws a circle that is about the size of the diameter.
+     * Draws a circle of an arbitrary size.
      * 
      * @param turtle the turtle to move
-     * @param diameter is not actually the diameter, but it's pretty close
+     * @param shrinkFactor is an arbitrary number. As it gets bigger, the circle will shrink.
      */
-    public static void drawCircle(Turtle turtle, int diameter)	{
-    	for (int i = 0; i < 360/diameter; i++)	{
+    public static void drawCircle(Turtle turtle, int shrinkFactor)	{
+    	for (int i = 0; i < 360/shrinkFactor; i++)	{
     		turtle.forward(1);
-    		turtle.turn(diameter);
+    		turtle.turn(shrinkFactor);
     	}
     }
-
+    
+    /**
+     * Draws a semi-circle of an arbitrary size.
+     * 
+     * @param turtle the turtle to move
+     * @param shrinkFactor is an arbitrary number. As it gets bigger, the semi-circle will shrink.
+     */
+    public static void drawHalfCircle(Turtle turtle, int shrinkFactor)	{
+    	for (int i = 0; i < 180/shrinkFactor; i++)	{
+    		turtle.forward(1);
+    		turtle.turn(shrinkFactor);
+    	}
+    	turtle.turn(270);
+    }
+    
+    /**
+     * Draws a quarter-circle of an arbitrary size.
+     * 
+     * @param turtle the turtle to move
+     * @param shrinkFactor is an arbitrary number. As it gets bigger, the quarter-circle will shrink.
+     */
+    public static void drawQuarterCircle(Turtle turtle, int shrinkFactor)	{
+    	for (int i = 0; i < 90/shrinkFactor; i++)	{
+    		turtle.forward(1);
+    		turtle.turn(shrinkFactor);
+    	}
+    	turtle.turn(270);
+    }
+    
     /**
      * Determine inside angles of a regular polygon.
      * 
@@ -101,8 +130,8 @@ public class TurtleSoup {
     public static double calculateHeadingToPoint(double currentHeading, int currentX, int currentY,
                                                  int targetX, int targetY) {
     	double theta = Math.toDegrees(Math.atan2(targetY - currentY, targetX - currentX));
-    	double adjustedTheta = 90 - theta;		//subtract 90 because the heading points north and not east
-    	double correctedTheta = (360 + (adjustedTheta - currentHeading)) % 360;		//take into account current heading
+    	double normalizeTheta = 90 - theta;		//subtract 90 because the heading points north and not east
+    	double correctedTheta = (360 + (normalizeTheta - currentHeading)) % 360;		//take into account current heading
     	return correctedTheta;
     }
 
@@ -141,10 +170,136 @@ public class TurtleSoup {
      * @param turtle the turtle context
      */
     public static void drawPersonalArt(Turtle turtle) {
-        throw new RuntimeException("implement me!");
+    	int numClouds = 5;
+    	int degrees = 90;
+    	
+    	Random rand = new Random();
+    	for(int i = 0; i < numClouds; i++)	{
+    		turtle.color(PenColor.GRAY);
+    		drawRandomCloud(turtle);
+    		turtle.turn(degrees);
+    		turtle.color(PenColor.YELLOW);
+    		degrees += 90;
+    		turtle.forward(120);
+    	}
     }
 
     /**
+     * Draws a random cloud.
+     * 
+     * @param turtle the turtle to move
+     */
+    public static void drawRandomCloud(Turtle turtle) {
+    	Random rand = new Random();
+    	int chance = rand.nextInt(100);
+    	int shrinkFactor = 5;
+    	
+    	if(chance > 75)	
+    		drawCloud1(turtle, shrinkFactor);
+    	else if (chance > 50)
+    		drawCloud2(turtle, shrinkFactor);
+    	else if (chance > 25)
+    		drawCloud3(turtle, shrinkFactor);
+    	else
+    		drawCloud4(turtle, shrinkFactor);
+    	
+	}
+
+    /**
+     * Draws a cloud.
+     * 
+     * @param turtle the turtle to move
+     * @param shrinkFactor is an arbitrary number. As it gets bigger, the circle will shrink.
+     */
+    public static void drawCloud4(Turtle turtle, int shrinkFactor) {
+    	drawQuarterCircle(turtle, shrinkFactor);
+    	drawQuarterCircle(turtle, shrinkFactor);
+    	drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+    	drawQuarterCircle(turtle, shrinkFactor);
+    	drawQuarterCircle(turtle, shrinkFactor);
+    	drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+	}
+
+    /**
+     * Draws a cloud.
+     * 
+     * @param turtle the turtle to move
+     * @param shrinkFactor is an arbitrary number. As it gets bigger, the circle will shrink.
+     */
+	public static void drawCloud3(Turtle turtle, int shrinkFactor) {
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+	}
+
+	/**
+     * Draws a cloud.
+     * 
+     * @param turtle the turtle to move
+     * @param shrinkFactor is an arbitrary number. As it gets bigger, the circle will shrink.
+     */
+	public static void drawCloud2(Turtle turtle, int shrinkFactor) {
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+	}
+
+	/**
+     * Draws a cloud.
+     * 
+     * @param turtle the turtle to move
+     * @param shrinkFactor is an arbitrary number. As it gets bigger, the circle will shrink.
+     */
+	public static void drawCloud1(Turtle turtle, int shrinkFactor) {
+		drawHalfCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawHalfCircle(turtle, shrinkFactor);
+		drawQuarterCircle(turtle, shrinkFactor);
+	}
+
+	/**
      * Main method.
      * 
      * This is the method that runs when you run "java TurtleSoup".
@@ -152,15 +307,11 @@ public class TurtleSoup {
     public static void main(String args[]) {
         DrawableTurtle turtle = new DrawableTurtle();
         
-        
         //drawSquare(turtle, 40);
-        drawCircle(turtle, 10);
-        drawCircle(turtle, 10);
-        drawCircle(turtle, 10);
-        drawCircle(turtle, 10);
-        drawCircle(turtle, 10);
         //drawRegularPolygon(turtle, 30, 40);
+        drawPersonalArt(turtle);
 
+     
         // draw the window
         turtle.draw();
     }
