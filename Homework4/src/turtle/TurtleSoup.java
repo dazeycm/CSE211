@@ -1,6 +1,16 @@
 /* Copyright (c) 2007-2014 MIT 6.005 course staff, all rights reserved.
  * Redistribution of original or derived work requires permission of course staff.
  */
+
+/**
+ * Craig Dazey
+ * Dr. Kiper
+ * 2-23-2015
+ * CSE 211
+ * Follow requirements set by others to implement code, and also use existing documentation to use provide methods.
+ * Assignment 4
+ */
+
 package turtle;
 
 import java.lang.Math;
