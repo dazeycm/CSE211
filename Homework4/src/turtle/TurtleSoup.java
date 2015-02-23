@@ -121,8 +121,7 @@ public class TurtleSoup {
 	 * @param sideLength
 	 *            length of each side
 	 */
-	public static void drawRegularPolygon(Turtle turtle, int sides,
-			int sideLength) {
+	public static void drawRegularPolygon(Turtle turtle, int sides, int sideLength) {
 		double angle = calculateRegularPolygonAngle(sides);
 		for (int i = 0; i < sides; i++) {
 			turtle.forward(sideLength);
@@ -155,7 +154,7 @@ public class TurtleSoup {
 	public static double calculateHeadingToPoint(double currentHeading,
 			int currentX, int currentY, int targetX, int targetY) {
 		double theta = Math.toDegrees(Math.atan2(targetY - currentY, targetX - currentX));
-		double normalizeTheta = 90 - theta; // subtract 90 because the heading points north and not east
+		double normalizeTheta = 90 - theta; // subtract 90 because the initial heading points north and not east
 		double correctedTheta = (360 + (normalizeTheta - currentHeading)) % 360; // take into account current heading
 		return correctedTheta;
 	}
@@ -177,8 +176,7 @@ public class TurtleSoup {
 	 * @return list of heading adjustments between points, of size (# of points)
 	 *         - 1.
 	 */
-	public static List<Double> calculateHeadings(List<Integer> xCoords,
-			List<Integer> yCoords) {
+	public static List<Double> calculateHeadings(List<Integer> xCoords, List<Integer> yCoords) {
 		ArrayList<Double> headings = new ArrayList<Double>();
 		for (int i = 0; i < xCoords.size() - 1; i++) {
 			if (i == 0) {
@@ -217,7 +215,7 @@ public class TurtleSoup {
 	}
 
 	/**
-	 * Draws a random cloud.
+	 * Draws a random cloud from one of four preset clouds.
 	 * 
 	 * @param turtle
 	 *            the turtle to move
