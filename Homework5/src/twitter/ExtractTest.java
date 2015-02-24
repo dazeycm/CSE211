@@ -21,26 +21,37 @@ public class ExtractTest {
     
     private static Instant d1;
     private static Instant d2;
+    private static Instant d3;
+
     
     private static Tweet tweet1;
     private static Tweet tweet2;
+    private static Tweet tweet3;
+
     
     @BeforeClass
     public static void setUpBeforeClass() {
         d1 = Instant.parse("2014-09-14T10:00:00Z");
         d2 = Instant.parse("2014-09-14T11:00:00Z");
+        d3 = Instant.parse("2014-09-14T12:00:00Z");
         
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
         tweet2 = new Tweet(1, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
+        tweet3 = new Tweet(2, "tada", "testestestestest", d3);
     }
     
     @Test
     public void testGetTimespanTwoTweets() {
-        
         Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2));
-        
         assertEquals(d1, timespan.getStart());
         assertEquals(d2, timespan.getEnd());
+    }
+
+    @Test
+    public void testGetTimespanThreeTweets()	{
+    	 Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1, tweet2, tweet3));
+         assertEquals(d1, timespan.getStart());
+         assertEquals(d3, timespan.getEnd());
     }
     
     @Test
