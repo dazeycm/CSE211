@@ -14,7 +14,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /*
- * TODO: your testing strategies for these methods should go here
+ * Partitions for getTimeSpan:
+ * 	A. # of tweets
+ * 		1. Given 0 Tweets
+ * 		2. Given 1 Tweet
+ * 		3. Given >1 Tweet
+ * 			A. Given 2 Tweets
+ * 			B. Given 3 Tweets
  */
 
 public class ExtractTest {
