@@ -20,8 +20,8 @@ public class DrawableTurtle implements Turtle {
     double currentHeading;
     PenColor currentColor;
 
-    private static final int canvasWidth = 512;
-    private static final int canvasHeight = 512;
+    private static final int canvasWidth = 1700;
+    private static final int canvasHeight = 900;
 
     public DrawableTurtle() {
         this.currentPosition = new Point(0, 0);

@@ -210,7 +210,7 @@ public class TurtleSoup {
 	 *            the turtle context
 	 */
 	public static void drawPersonalArt(Turtle turtle) {
-		int numClouds = 5;
+		int numClouds = 20;
 		int degrees = 90;
 
 		Random rand = new Random();

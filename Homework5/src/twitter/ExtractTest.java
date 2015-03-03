@@ -21,6 +21,9 @@ import org.junit.Test;
  * 		3. Given >1 Tweet
  * 			A. Given 2 Tweets
  * 			B. Given 3 Tweets
+ * 
+ * Partitions for getMentionedUsers
+ * 	A. #
  */
 
 public class ExtractTest {
@@ -33,7 +36,11 @@ public class ExtractTest {
     private static Tweet tweet1;
     private static Tweet tweet2;
     private static Tweet tweet3;
-
+    private static Tweet tweet4;
+    private static Tweet tweet5;
+    private static Tweet tweet6;
+    private static Tweet tweet7;
+    private static Tweet tweet8;
     
     @BeforeClass
     public static void setUpBeforeClass() {
@@ -44,6 +51,25 @@ public class ExtractTest {
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
         tweet2 = new Tweet(1, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
         tweet3 = new Tweet(2, "tada", "testestestestest", d3);
+        
+        tweet4 = new Tweet(3, "alyssa", "@craigdazey", d1);
+        tweet5 = new Tweet(4, "alyssa", "@CRAIGDAZEY", d1);
+        tweet6 = new Tweet(5, "alyssa", "_@craigdazey", d1);
+        tweet7 = new Tweet(6, "alyssa", "@craig!!!dazey", d1);
+        tweet8 = new Tweet(7, "alyssa", "@craigdazey @stevieyakkel", d1);
+    }
+    
+    @Test
+    public void testGetTimespanZeroTweets()	{
+    	Timespan timespan = Extract.getTimespan(Arrays.asList());
+    	assertEquals(timespan.getStart(), timespan.getEnd());
+    }
+    
+    @Test
+    public void testGetTimespanOneTweet()	{
+    	Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1));
+    	assertEquals(d1, timespan.getStart());
+    	assertEquals(d1, timespan.getEnd());
     }
     
     @Test
@@ -63,7 +89,6 @@ public class ExtractTest {
     @Test
     public void testGetMentionedUsersNoMention() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
-        
         assertTrue(mentionedUsers.isEmpty());
     }
 
