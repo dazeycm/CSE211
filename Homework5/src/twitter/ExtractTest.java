@@ -17,7 +17,7 @@ import org.junit.rules.ExpectedException;
 
 /*
  * Partitions for getTimeSpan:
- * 	A. # of tweets
+ *  A. # of tweets
  * 		1. Given 0 Tweets
  * 		2. Given 1 Tweet
  * 		3. Given >1 Tweet
@@ -25,7 +25,7 @@ import org.junit.rules.ExpectedException;
  * 			B. Given 3 Tweets
  * 
  * Partitions for getMentionedUsers
- * 	A. Valid mention or not
+ *  A. Valid mention or not
  * 		1. Test for valid mention
  * 		2. Test for two of the same name in different cases
  * 		3. Test for character before @ sign
