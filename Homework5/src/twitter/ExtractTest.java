@@ -25,13 +25,13 @@ import org.junit.rules.ExpectedException;
  * 			B. Given 3 Tweets
  * 
  * Partitions for getMentionedUsers
- * 	A. Valid mention or not
+ *  A. Valid mention or not
  * 		1. Test for valid mention
  * 		2. Test for two of the same name in different cases
  * 		3. Test for character before @ sign
  * 		4. Test for invalid chars in mention
  * 		5. Test for multiple mentions in one tweet
- *  B. Get mentions from different number of tweets
+ *	B. Get mentions from different number of tweets
  *  	1. Given 0 Tweets
  *  	2. Given 1 Tweet
  *  	3. Given 2 Tweets
@@ -52,7 +52,6 @@ public class ExtractTest {
     private static Tweet tweet7;
     private static Tweet tweet8;
     private static Tweet tweet9;
-    
     
     @BeforeClass
     public static void setUpBeforeClass() {
