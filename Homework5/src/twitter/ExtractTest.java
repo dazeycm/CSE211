@@ -26,21 +26,12 @@ import org.junit.rules.ExpectedException;
  * 
  * Partitions for getMentionedUsers
  *  A. Valid mention or not
-<<<<<<< HEAD
- * 		1. Test for valid mention
- * 		2. Test for two of the same name in different cases
- * 		3. Test for character before @ sign
- * 		4. Test for invalid chars in mention
- * 		5. Test for multiple mentions in one tweet
- *	B. Get mentions from different number of tweets
-=======
  * 	    1. Test for valid mention
  * 	    2. Test for two of the same name in different cases
  * 	    3. Test for character before @ sign
  * 	    4. Test for invalid chars in mention
  * 	    5. Test for multiple mentions in one tweet
  *  B. Get mentions from different number of tweets
->>>>>>> a04ed5f4569630b0c20699130b3bebb86e0ae98c
  *  	1. Given 0 Tweets
  *  	2. Given 1 Tweet
  *  	3. Given 2 Tweets
