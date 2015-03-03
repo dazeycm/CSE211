@@ -11,7 +11,9 @@ import java.util.Arrays;
 import java.util.Set;
 
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /*
  * Partitions for getTimeSpan:
@@ -23,7 +25,16 @@ import org.junit.Test;
  * 			B. Given 3 Tweets
  * 
  * Partitions for getMentionedUsers
- * 	A. #
+ * 	A. Valid mention or not
+ * 		1. Test for valid mention
+ * 		2. Test for two of the same name in different cases
+ * 		3. Test for character before @ sign
+ * 		4. Test for invalid chars in mention
+ * 		5. Test for multiple mentions in one tweet
+ *  B. Get mentions from different number of tweets
+ *  	1. Given 0 Tweets
+ *  	2. Given 1 Tweet
+ *  	3. Given 2 Tweets
  */
 
 public class ExtractTest {
@@ -41,6 +52,8 @@ public class ExtractTest {
     private static Tweet tweet6;
     private static Tweet tweet7;
     private static Tweet tweet8;
+    private static Tweet tweet9;
+    
     
     @BeforeClass
     public static void setUpBeforeClass() {
@@ -52,12 +65,16 @@ public class ExtractTest {
         tweet2 = new Tweet(1, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
         tweet3 = new Tweet(2, "tada", "testestestestest", d3);
         
-        tweet4 = new Tweet(3, "alyssa", "@craigdazey", d1);
-        tweet5 = new Tweet(4, "alyssa", "@CRAIGDAZEY", d1);
+        tweet4 = new Tweet(3, "alyssa", "@craigdazey is so cool", d1);
+        tweet5 = new Tweet(4, "alyssa", "@CRAIGDAZEY is equally cool", d1);
         tweet6 = new Tweet(5, "alyssa", "_@craigdazey", d1);
         tweet7 = new Tweet(6, "alyssa", "@craig!!!dazey", d1);
         tweet8 = new Tweet(7, "alyssa", "@craigdazey @stevieyakkel", d1);
+        tweet9 = new Tweet(8, "alyssa", "hello world said @drewclark", d1); 
     }
+    
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
     
     @Test
     public void testGetTimespanZeroTweets()	{
@@ -68,8 +85,7 @@ public class ExtractTest {
     @Test
     public void testGetTimespanOneTweet()	{
     	Timespan timespan = Extract.getTimespan(Arrays.asList(tweet1));
-    	assertEquals(d1, timespan.getStart());
-    	assertEquals(d1, timespan.getEnd());
+    	assertEquals(timespan.getEnd(), timespan.getStart());
     }
     
     @Test
