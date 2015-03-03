@@ -43,7 +43,6 @@ public class ExtractTest {
     private static Instant d2;
     private static Instant d3;
 
-    
     private static Tweet tweet1;
     private static Tweet tweet2;
     private static Tweet tweet3;
@@ -77,9 +76,9 @@ public class ExtractTest {
     public ExpectedException exception = ExpectedException.none();
     
     @Test
-    public void testGetTimespanZeroTweets()	{
+    public void testGetTimespanZeroTweetsThrowsIllegalArgumentException()	{
+    	exception.expect(IllegalArgumentException.class);
     	Timespan timespan = Extract.getTimespan(Arrays.asList());
-    	assertEquals(timespan.getStart(), timespan.getEnd());
     }
     
     @Test
