@@ -109,7 +109,7 @@ public class ExtractTest {
     @Test
     public void testGetMentionedUsersSameNameMultipleCase() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet5));
-        assertTrue(mentionedUsers.size() == 1);
+        assertEquals(1, mentionedUsers.size());
     }
     
     @Test

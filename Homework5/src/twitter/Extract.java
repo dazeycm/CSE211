@@ -3,6 +3,10 @@
  */
 package twitter;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -23,7 +27,17 @@ public class Extract {
      *         every tweet in the list.
      */
     public static Timespan getTimespan(List<Tweet> tweets) {
-    	throw new RuntimeException("not implemented");
+    	if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to getTimespan method");
+    	Instant first = tweets.get(0).getTimestamp();
+    	Instant last = tweets.get(tweets.size() - 1).getTimestamp();
+    	for(Tweet tweet : tweets)	{
+    		if(tweet.getTimestamp().isBefore(first))	{
+    			first = tweet.getTimestamp();
+    		} else if (tweet.getTimestamp().isAfter(last))	{
+    			last = tweet.getTimestamp();
+    		}
+    	}
+    	return new Timespan(first, last);
     }
 
     /**
@@ -42,7 +56,19 @@ public class Extract {
      *         address like bitdiddle@mit.edu does not contain a mention of mit.
      */
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+        if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to getMentionedUsers method");
+        Set<String> mentionedUsers = new HashSet<String>();
+        for(Tweet tweet : tweets)	{
+        	List<String> words = Arrays.asList(tweet.getText().split(" "));
+        	for(String word: words)	{
+        		word = word.toLowerCase();
+        		if(word.matches("^@[a-z0-9_]+$"))	{
+        			System.out.println("worked");
+        			mentionedUsers.add(word.substring(1));
+        		}
+        	}
+        }
+        return mentionedUsers;
     }
 
 }
