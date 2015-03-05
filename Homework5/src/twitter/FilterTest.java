@@ -49,6 +49,8 @@ public class FilterTest {
     private static Instant d3;
     private static Instant d4;
     private static Instant d5;
+    private static Instant superEarly;
+    private static Instant superLate;
 
     private static Tweet tweet1;
     private static Tweet tweet2;
@@ -65,6 +67,8 @@ public class FilterTest {
         d3 = Instant.parse("2014-09-15T11:00:00Z");
         d4 = Instant.parse("2014-09-16T11:00:00Z");
         d5 = Instant.parse("2014-09-17T11:00:00Z");
+        superEarly = Instant.parse("2013-09-14T10:00:00Z");
+        superLate = Instant.parse("2015-09-14T10:00:00Z");
         
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
         tweet2 = new Tweet(1, "hello", "rivest talk in 30 parsecs talk #hype", d2);
@@ -119,24 +123,24 @@ public class FilterTest {
     @Test
     public void testInTimespanGiven0TweetsThrowsIllegalArgumentException()	{
     	exception.expect(IllegalArgumentException.class);
-    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(), new Timespan(Instant.MIN, Instant.MAX));
+    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(), new Timespan(superEarly, superLate));
     }
     
     @Test
     public void testInTimespanGivenMultipleTweetsNoResults()	{
-    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(d3, Instant.MAX));
+    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(d3, superLate));
     	assertTrue(inTimespan.isEmpty());
     }
     
     @Test
     public void testInTimespanGivenMultipleTweetsMultipleResults()	{
-    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(Instant.MIN, Instant.MAX));
+    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(superEarly, superLate));
     	assertTrue(inTimespan.containsAll(Arrays.asList(tweet1, tweet2)));
     }
     
     @Test
     public void testInTimespanTweetInsideTimespan()	{
-    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1), new Timespan(Instant.MIN, Instant.MAX));
+    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1, tweet2), new Timespan(superEarly, superLate));
     	assertTrue(inTimespan.containsAll(Arrays.asList(tweet1, tweet2)));
     }
     
@@ -148,8 +152,9 @@ public class FilterTest {
     
     @Test
     public void testInTimespanTweetsOutsideTimespan()	{
-    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1), new Timespan(tweet2.getTimestamp(), Instant.MAX));
-    	assertTrue(inTimespan.containsAll(Arrays.asList(tweet1, tweet2)));
+    	List<Tweet> inTimespan = Filter.inTimespan(Arrays.asList(tweet1), new Timespan(tweet2.getTimestamp(), superLate));
+    	assertTrue(inTimespan.isEmpty());
+    	assertFalse(inTimespan.contains(tweet1));
     }
     
     @Test

@@ -26,6 +26,7 @@ public class Filter {
      *         equivalent.
      */
     public static List<Tweet> writtenBy(List<Tweet> tweets, String username) {
+    	if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to writtenBy method");
         List<Tweet> tweetsByUsername = new ArrayList<Tweet>();
         username = username.toLowerCase();
         for(Tweet tweet : tweets)	{
@@ -46,7 +47,14 @@ public class Filter {
      * @return all tweets in the list that were sent during the timespan.
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
-        throw new RuntimeException("not implemented");
+    	if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to inTimespan method");
+        List<Tweet> tweetsInTimepspan = new ArrayList<Tweet>();
+        for(Tweet tweet : tweets)	{
+        	if(tweet.getTimestamp().isAfter(timespan.getStart().minusSeconds(1)) && tweet.getTimestamp().isBefore(timespan.getEnd().plusSeconds(1)))	{
+        		tweetsInTimepspan.add(tweet);
+        	}
+        }
+        return tweetsInTimepspan;
     }
 
     /**
