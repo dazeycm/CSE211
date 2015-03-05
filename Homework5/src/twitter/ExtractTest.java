@@ -34,8 +34,7 @@ import org.junit.rules.ExpectedException;
  * 		6. Test for no mentions
  *  B. Get mentions from different number of tweets
  *  	1. Given 0 Tweets
- *  	2. Given 1 Tweet
- *  	3. Given 2 Tweets
+ *  	2. Given 2 Tweets
  */
 
 public class ExtractTest {
@@ -114,7 +113,19 @@ public class ExtractTest {
     }
     
     @Test
-    public void testGetMentionedUsersMultipleMention() {
+    public void testGetMentionedUsersCharBeforeMention() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet6));
+        assertTrue(mentionedUsers.isEmpty());
+    }
+    
+    @Test
+    public void testGetMentionedUsersInvalidCharsInMention() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet7));
+        assertTrue(mentionedUsers.isEmpty());
+    }
+    
+    @Test
+    public void testGetMentionedUsersMultipleMentions() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet8));
         assertEquals(3, mentionedUsers.size());
         assertTrue(mentionedUsers.contains("drewclark"));
@@ -129,10 +140,18 @@ public class ExtractTest {
     }
 
     @Test
-    public void testGetMentionedUsersNoTweets() {
+    public void testGetMentionedUsersNoTweetsThrowsIllegalArgumentException() {
     	exception.expect(IllegalArgumentException.class);
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList());
     }
+    
+    @Test
+    public void testGetMentionedUsersTwoTweets() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet4, tweet9));
+        assertTrue(mentionedUsers.contains("craigdazey"));
+        assertTrue(mentionedUsers.contains("drewclark"));
+    }
+    
 /*
  * Warning: all the tests you write here must be runnable against any Extract class that follows
  * the spec.  It will be run against several staff implementations
