@@ -57,7 +57,6 @@ public class FilterTest {
     private static Tweet tweet2;
     private static Tweet tweet3;
     private static Tweet tweet4;
-    private static Tweet tweet5;
     private static Tweet tweet6;
     private static Tweet tweet7;
     
@@ -75,7 +74,6 @@ public class FilterTest {
         tweet2 = new Tweet(1, "hello", "rivest talk in 30 parsecs talk #hype", d2);
         tweet3 = new Tweet(2, "world", "rivest tallkkk in 30 minutes #hype", d3);
         tweet4 = new Tweet(3, "python", "rivest TALK in 30 seconds #hype", d4);
-        tweet5 = new Tweet(4, "objc", "rivest talk in 30 hours #hype", d5);
         tweet6 = new Tweet(5, "scheme", "rivest talk in 30 years #hype", d5);
         tweet7 = new Tweet(6, "sChEmE", "rivest talk in 30 years #hype", d5);
     }
