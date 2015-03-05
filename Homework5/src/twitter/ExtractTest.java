@@ -129,9 +129,7 @@ public class ExtractTest {
     public void testGetMentionedUsersMultipleMentions() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet8));
         assertEquals(3, mentionedUsers.size());
-        assertTrue(mentionedUsers.contains("drewclark"));
-        assertTrue(mentionedUsers.contains("stevieyakkel"));
-        assertTrue(mentionedUsers.contains("craigdazey"));
+        assertTrue(mentionedUsers.containsAll(Arrays.asList("drewclark", "stevieyakkel", "craigdazey")));    
     }
     
     @Test
@@ -155,8 +153,7 @@ public class ExtractTest {
     @Test
     public void testGetMentionedUsersMultipleTweetsMultipleMentions() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet4, tweet9));
-        assertTrue(mentionedUsers.contains("craigdazey"));
-        assertTrue(mentionedUsers.contains("drewclark"));
+        assertTrue(mentionedUsers.containsAll(Arrays.asList("craigdazey", "drewclark")));
     }
     
 /*
