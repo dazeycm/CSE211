@@ -63,7 +63,6 @@ public class Extract {
         	for(String word: words)	{
         		word = word.toLowerCase();
         		if(word.matches("^@[a-z0-9_]+$"))	{
-        			System.out.println("worked");
         			mentionedUsers.add(word.substring(1));
         		}
         	}
