@@ -28,13 +28,15 @@ import org.junit.rules.ExpectedException;
  *  A. Valid mention or not
  * 	    1. Test for single valid mention
  * 	    2. Test for two of the same name in different cases
- * 	    3. Test for character before @ sign
+ * 	    3. Test for invalid character before @ sign
  * 	    4. Test for invalid chars in mention
  * 	    5. Test for multiple mentions in one tweet
  * 		6. Test for no mentions
  *  B. Get mentions from different number of tweets
  *  	1. Given 0 Tweets
- *  	2. Given 2 Tweets
+ *  	2. Given >0 Tweets
+ *  		A. 0 Results
+ *  		B. Multiple results
  */
 
 public class ExtractTest {
@@ -62,7 +64,6 @@ public class ExtractTest {
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
         tweet2 = new Tweet(1, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
         tweet3 = new Tweet(2, "tada", "testestestestest", d3);
-        
         tweet4 = new Tweet(3, "alyssa", "@craigdazey is so cool", d1);
         tweet5 = new Tweet(4, "alyssa", "@craigdazey is so cool and @CRAIGDAZEY is equally cool", d1);
         tweet6 = new Tweet(5, "alyssa", "_@craigdazey", d1);
@@ -146,7 +147,13 @@ public class ExtractTest {
     }
     
     @Test
-    public void testGetMentionedUsersTwoTweets() {
+    public void testGetMentionedUsersMultipleTweetsNoMentions() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1, tweet2, tweet3));
+        assertTrue(mentionedUsers.isEmpty());
+    }
+    
+    @Test
+    public void testGetMentionedUsersMultipleTweetsMultipleMentions() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet4, tweet9));
         assertTrue(mentionedUsers.contains("craigdazey"));
         assertTrue(mentionedUsers.contains("drewclark"));
