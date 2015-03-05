@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,14 @@ import org.junit.rules.ExpectedException;
  * 		1. Given Multiple User
  * 			a. 0 followers
  * 			b. >0 followers
+ * 
+ * 	A. Given empty follower graph
+ * 	B. Given one key in follower graph
+ * 		1. Without followers
+ * 		2. With followers
+ * 	B. Given non-empty follower graph
+ * 		1. Multiple users, no followers
+ * 		2. Multiple users, multiple followers
  * 	
  */
 
@@ -39,11 +48,10 @@ public class SocialNetworkTest {
 	 private static Tweet tweet3;
 	 private static Tweet tweet4;
 	 private static Tweet tweet5;
-	 private static Tweet tweet6;
-	 private static Tweet tweet7;
-	 private static Tweet tweet8;
-	 private static Tweet tweet9;
 	
+	 private static Set<String> drewFollowers;
+	 private static Set<String> brianFollowers;
+	 
 	@BeforeClass
     public static void setUpBeforeClass() {
         d1 = Instant.parse("2014-09-14T10:00:00Z");
@@ -54,6 +62,18 @@ public class SocialNetworkTest {
         tweet2 = new Tweet(1, "craigdazey", "blahblahblah", d2);
         tweet3 = new Tweet(2, "stevieyakkel", "testestestestest#GDC is THE BEE'S KNEES", d3);
         tweet4 = new Tweet(3, "drewclark", "@craigdazey is so cool but @stevieyakkel is not", d1);
+        tweet5 = new Tweet(4, "craigdazey", "class was really fun today", d1);
+        
+        drewFollowers = new HashSet<String>();
+        drewFollowers.add("damonduckett");
+        drewFollowers.add("brian");
+        drewFollowers.add("demonsparton117");
+        
+        brianFollowers = new HashSet<String>();
+        brianFollowers.add("damonduckett");
+        brianFollowers.add("brian");
+        brianFollowers.add("demonsparton117");
+        brianFollowers.add("craigdazey");
     }
 	
 	@Rule
@@ -67,14 +87,67 @@ public class SocialNetworkTest {
     
     @Test
     public void testGuessFollowsGraphMultipleUsersNoFollowers()	{
-    	 Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList());
+    	 Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet3, tweet5));
+    	 assertTrue(followsGraph.containsKey("craigdazey"));
+    	 assertTrue(followsGraph.containsKey("stevieyakkel"));
+    	 assertTrue(followsGraph.get("craigdazey").isEmpty());
+    	 assertTrue(followsGraph.get("stevieyakkel").isEmpty());
     }
     
     @Test
-    public void testInfluencersMultipleTweetsNoFollowers() {
+    public void testGuessFollowsGraphMultipleUsersMultipleFollowers()	{
+    	Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList(tweet1, tweet4));
+    	assertTrue(followsGraph.containsKey("craigdazey"));
+    	assertTrue(followsGraph.containsKey("drewclark"));
+    	assertTrue(followsGraph.containsKey("stevieyakkel"));
+    	assertTrue(followsGraph.get("craigdazey").contains("stevieyakkel"));
+    	assertTrue(followsGraph.get("drewclark").contains("craigdazey"));
+    	assertTrue(followsGraph.get("drewclark").contains("stevieyakkel"));
+    	assertTrue(followsGraph.get("stevieyakkel").isEmpty());
+    }
+    
+    @Test
+    public void testInfluencersGivenEmptyFollowerGraphThrowsIllegalArgumentExcpetion()	{
+    	exception.expect(IllegalArgumentException.class);
+    	Map<String, Set<String>> followsGraph = new HashMap<>();
+    	List<String> influencers = SocialNetwork.influencers(followsGraph);
+    }
+    
+    @Test
+    public void testInfluencersOneUserNoFollowers() {
         Map<String, Set<String>> followsGraph = new HashMap<>();
+        followsGraph.put("craigdazey", new HashSet<String>());
         List<String> influencers = SocialNetwork.influencers(followsGraph);
-        assertTrue(influencers.isEmpty());
+        assertTrue(influencers.contains("craigdazey"));
+    }
+    
+    @Test
+    public void testInfluencersOneUserWithFollowers() {
+        Map<String, Set<String>> followsGraph = new HashMap<>();
+        followsGraph.put("drewclark", drewFollowers);
+        List<String> influencers = SocialNetwork.influencers(followsGraph);
+        assertTrue(influencers.contains("drewclark"));
+    }
+    
+    @Test
+    public void testInfluencersMultipleUsersNoFollowers() {
+        Map<String, Set<String>> followsGraph = new HashMap<>();
+        followsGraph.put("craigdazey", new HashSet<String>());
+        followsGraph.put("drewclark", new HashSet<String>());
+        List<String> influencers = SocialNetwork.influencers(followsGraph);
+        assertTrue(influencers.contains("craigdazey"));
+        assertTrue(influencers.contains("drewclark"));
+    }
+    
+    @Test
+    public void testInfluencersMultipleUsersMultipleFollowers() {
+        Map<String, Set<String>> followsGraph = new HashMap<>();
+        followsGraph.put("drewclark", drewFollowers);
+        followsGraph.put("brian", brianFollowers);
+        List<String> influencers = SocialNetwork.influencers(followsGraph);
+        assertEquals("brian", influencers.get(0));
+        assertEquals("drew", influencers.get(1));
+        assertTrue(influencers.size() == 2);
     }
 
 /*

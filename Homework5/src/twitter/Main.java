@@ -1,5 +1,6 @@
 /* Copyright (c) 2007-2014 MIT 6.005 course staff, all rights reserved.
 
+
  * Redistribution of original or derived work requires permission of course staff.
  */
 
@@ -36,7 +37,7 @@ public class Main {
     /**
      * The query string denoted by the Twitter Search API
      */
-    private static final String QUERY_STRING = "from:NewYorkFBI";
+    private static final String QUERY_STRING = "from:MiamiUniversity";
     
     /**
      * Main method of the program.  Fetches a sample of tweets from a 6.005 and prints some facts about it.
