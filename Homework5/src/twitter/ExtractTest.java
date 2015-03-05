@@ -64,7 +64,7 @@ public class ExtractTest {
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
         tweet2 = new Tweet(1, "bbitdiddle", "rivest talk in 30 minutes #hype", d2);
         tweet3 = new Tweet(2, "tada", "testestestestest", d3);
-        tweet4 = new Tweet(3, "alyssa", "@craigdazey is so cool", d1);
+        tweet4 = new Tweet(3, "alyssa", "@craiGdazey is so cool", d1);
         tweet5 = new Tweet(4, "alyssa", "@craigdazey is so cool and @CRAIGDAZEY is equally cool", d1);
         tweet6 = new Tweet(5, "alyssa", "_@craigdazey", d1);
         tweet7 = new Tweet(6, "alyssa", "@craig!!!dazey", d1);

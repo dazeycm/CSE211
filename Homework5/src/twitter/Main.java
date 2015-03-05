@@ -45,6 +45,8 @@ public class Main {
     public static void main(String[] args) {
 
         final List<Tweet> tweets;
+        
+        System.out.println(Math.tan(90));
 
         try {
             System.err.println("fetching tweets for query: " + QUERY_STRING);

@@ -5,32 +5,75 @@ package twitter;
 
 import static org.junit.Assert.*;
 
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /*
- * TODO: your testing strategies for these methods should go here
+ * GuessFollowsGraph testing partitions
+ * 	A. Given 0 Tweets
+ * 	B. Given >0 Tweets
+ * 		1. Given Multiple User
+ * 			a. 0 followers
+ * 			b. >0 followers
+ * 	
  */
 
 public class SocialNetworkTest {
 
-    @Test
-    public void testGuessFollowsGraphEmpty() {
-        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(new ArrayList<>());
+	 private static Instant d1;
+	 private static Instant d2;
+	 private static Instant d3;
+	 
+	 private static Tweet tweet1;
+	 private static Tweet tweet2;
+	 private static Tweet tweet3;
+	 private static Tweet tweet4;
+	 private static Tweet tweet5;
+	 private static Tweet tweet6;
+	 private static Tweet tweet7;
+	 private static Tweet tweet8;
+	 private static Tweet tweet9;
+	
+	@BeforeClass
+    public static void setUpBeforeClass() {
+        d1 = Instant.parse("2014-09-14T10:00:00Z");
+        d2 = Instant.parse("2014-09-14T11:00:00Z");
+        d3 = Instant.parse("2014-09-14T12:00:00Z");
         
-        assertTrue(followsGraph.isEmpty());
+        tweet1 = new Tweet(0, "craigdazey", "@stevieyakkel", d1);
+        tweet2 = new Tweet(1, "craigdazey", "blahblahblah", d2);
+        tweet3 = new Tweet(2, "stevieyakkel", "testestestestest#GDC is THE BEE'S KNEES", d3);
+        tweet4 = new Tweet(3, "drewclark", "@craigdazey is so cool but @stevieyakkel is not", d1);
+    }
+	
+	@Rule
+    public ExpectedException exception = ExpectedException.none();
+
+    @Test
+    public void testGuessFollowsGraphNoTweetsThrowsIllegalArgumentException() {
+    	exception.expect(IllegalArgumentException.class);
+        Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(new ArrayList<>());
     }
     
     @Test
-    public void testInfluencersEmpty() {
+    public void testGuessFollowsGraphMultipleUsersNoFollowers()	{
+    	 Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(Arrays.asList());
+    }
+    
+    @Test
+    public void testInfluencersMultipleTweetsNoFollowers() {
         Map<String, Set<String>> followsGraph = new HashMap<>();
         List<String> influencers = SocialNetwork.influencers(followsGraph);
-        
         assertTrue(influencers.isEmpty());
     }
 
