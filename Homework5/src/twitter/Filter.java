@@ -82,7 +82,6 @@ public class Filter {
     	
     	for(int i = 0; i < words.size(); i++) {
     		words.set(i, words.get(i).toLowerCase());
-    		System.out.println(words.get(i));
 		}
 
     	for(Tweet tweet : tweets)	{
@@ -90,7 +89,6 @@ public class Filter {
 
     		for(int i = 0; i < tweetWords.size(); i++) {
     			tweetWords.set(i, tweetWords.get(i).toLowerCase());
-    			System.out.println(tweetWords.get(i));
     		}
     		
     		if(tweetWords.containsAll(words))	{
