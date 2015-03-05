@@ -60,4 +60,4 @@ out/
 RemoteSystemsTempFiles/
 bin/
 
-
+.DS_Store
