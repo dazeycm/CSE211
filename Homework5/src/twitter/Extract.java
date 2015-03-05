@@ -30,6 +30,7 @@ public class Extract {
     	if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to getTimespan method");
     	Instant first = tweets.get(0).getTimestamp();
     	Instant last = tweets.get(tweets.size() - 1).getTimestamp();
+    	
     	for(Tweet tweet : tweets)	{
     		if(tweet.getTimestamp().isBefore(first))	{
     			first = tweet.getTimestamp();
@@ -37,6 +38,7 @@ public class Extract {
     			last = tweet.getTimestamp();
     		}
     	}
+    	
     	return new Timespan(first, last);
     }
 
@@ -58,8 +60,10 @@ public class Extract {
     public static Set<String> getMentionedUsers(List<Tweet> tweets) {
         if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to getMentionedUsers method");
         Set<String> mentionedUsers = new HashSet<String>();
+        
         for(Tweet tweet : tweets)	{
         	List<String> words = Arrays.asList(tweet.getText().split(" "));
+        	
         	for(String word: words)	{
         		word = word.toLowerCase();
         		if(word.matches("^([^a-z0-9_]@|@)[a-z0-9_]+$"))	{
@@ -67,6 +71,7 @@ public class Extract {
         		}
         	}
         }
+        
         return mentionedUsers;
     }
 

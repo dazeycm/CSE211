@@ -4,6 +4,7 @@
 package twitter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,11 +30,13 @@ public class Filter {
     	if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to writtenBy method");
         List<Tweet> tweetsByUsername = new ArrayList<Tweet>();
         username = username.toLowerCase();
+        
         for(Tweet tweet : tweets)	{
         	if(tweet.getAuthor().toLowerCase().equals(username))	{
         		tweetsByUsername.add(tweet);
         	}
         }
+        
         return tweetsByUsername;
     }
 
@@ -48,13 +51,15 @@ public class Filter {
      */
     public static List<Tweet> inTimespan(List<Tweet> tweets, Timespan timespan) {
     	if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to inTimespan method");
-        List<Tweet> tweetsInTimepspan = new ArrayList<Tweet>();
+        List<Tweet> tweetsInTimespan = new ArrayList<Tweet>();
+        
         for(Tweet tweet : tweets)	{
         	if(tweet.getTimestamp().isAfter(timespan.getStart().minusSeconds(1)) && tweet.getTimestamp().isBefore(timespan.getEnd().plusSeconds(1)))	{
-        		tweetsInTimepspan.add(tweet);
+        		tweetsInTimespan.add(tweet);
         	}
         }
-        return tweetsInTimepspan;
+        
+        return tweetsInTimespan;
     }
 
     /**
@@ -72,7 +77,28 @@ public class Filter {
      *         "Obama" is the same as "obama".
      */
     public static List<Tweet> containing(List<Tweet> tweets, List<String> words) {
-        throw new RuntimeException("not implemented");
+    	if(tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to containing method");
+    	List<Tweet> tweetsContainingWords = new ArrayList<Tweet>();
+    	
+    	for(int i = 0; i < words.size(); i++) {
+    		words.set(i, words.get(i).toLowerCase());
+    		System.out.println(words.get(i));
+		}
+
+    	for(Tweet tweet : tweets)	{
+    		List<String> tweetWords = Arrays.asList(tweet.getText().split(" "));
+
+    		for(int i = 0; i < tweetWords.size(); i++) {
+    			tweetWords.set(i, tweetWords.get(i).toLowerCase());
+    			System.out.println(tweetWords.get(i));
+    		}
+    		
+    		if(tweetWords.containsAll(words))	{
+    			tweetsContainingWords.add(tweet);
+    		}
+    	}
+    	
+    	return tweetsContainingWords;
     }
 
 }

@@ -39,6 +39,7 @@ import org.junit.rules.ExpectedException;
  * 	B. Given >0 Tweets
  * 		1. No tweets contains words
  * 		2. Multiple Tweets contains words
+ * 			a. Contains multiple words
  * 	C. Check if case is an issue
  */
 
@@ -165,19 +166,26 @@ public class FilterTest {
     
     @Test
     public void testContainingMultipleTweetsNoResults()	{
-    	List<Tweet> containing = Filter.containing(Arrays.asList(), Arrays.asList("purple"));
+    	List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2, tweet3), Arrays.asList("purple"));
     	assertTrue(containing.isEmpty());
     }
     
     @Test
-    public void testContainingGivenMultipleTweetsMultipleResulsts() {
+    public void testContainingGivenMultipleTweetsMultipleResults() {
         List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2, tweet3), Arrays.asList("talk"));
         assertTrue(containing.containsAll(Arrays.asList(tweet1, tweet2)));
     }
     
     @Test
+    public void testContainingGivenMultipleTweetsMultipleWordsMultipleResults() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2, tweet3), Arrays.asList("talk", "rivest"));
+        assertTrue(containing.containsAll(Arrays.asList(tweet1, tweet2)));
+        assertFalse(containing.contains(tweet3));
+    }
+    
+    @Test
     public void testContainingMultipleTweetsCheckCase()	{
-    	List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet4), Arrays.asList("test"));
+    	List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet4), Arrays.asList("talk"));
     	assertTrue(containing.containsAll(Arrays.asList(tweet1, tweet4)));
     }
 
