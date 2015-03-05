@@ -67,9 +67,9 @@ public class FilterTest {
         d5 = Instant.parse("2014-09-17T11:00:00Z");
         
         tweet1 = new Tweet(0, "alyssa", "is it reasonable to talk about rivest so much?", d1);
-        tweet2 = new Tweet(1, "hello", "rivest talk in 30 parsecs #hype", d2);
-        tweet3 = new Tweet(2, "world", "rivest talk in 30 minutes #hype", d3);
-        tweet4 = new Tweet(3, "python", "rivest talk in 30 seconds #hype", d4);
+        tweet2 = new Tweet(1, "hello", "rivest talk in 30 parsecs talk #hype", d2);
+        tweet3 = new Tweet(2, "world", "rivest tallkkk in 30 minutes #hype", d3);
+        tweet4 = new Tweet(3, "python", "rivest TALK in 30 seconds #hype", d4);
         tweet5 = new Tweet(4, "objc", "rivest talk in 30 hours #hype", d5);
         tweet6 = new Tweet(5, "scheme", "rivest talk in 30 years #hype", d5);
         tweet7 = new Tweet(6, "sChEmE", "rivest talk in 30 years #hype", d5);
@@ -108,6 +108,10 @@ public class FilterTest {
     @Test
     public void testWrittenByMultipleTweetsSameAuthorDiffcasing()	{
     	List<Tweet> writtenBy = Filter.writtenBy(Arrays.asList(tweet6, tweet7), "scheme");
+    	assertTrue(writtenBy.size() == 2);
+    	assertTrue(writtenBy.containsAll(Arrays.asList(tweet6, tweet7)));
+    	
+    	writtenBy = Filter.writtenBy(Arrays.asList(tweet6, tweet7), "SCHeME");
     	assertTrue(writtenBy.size() == 2);
     	assertTrue(writtenBy.containsAll(Arrays.asList(tweet6, tweet7)));
     }
@@ -149,10 +153,27 @@ public class FilterTest {
     }
     
     @Test
-    public void testContaining() {
-        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2), Arrays.asList("talk"));
-        assertFalse(containing.isEmpty());
+    public void testContainingGiven0TweetsThrowsIllegalArgumentException()	{
+    	exception.expect(IllegalArgumentException.class);
+    	List<Tweet> containing = Filter.containing(Arrays.asList(), Arrays.asList("talk"));
+    }
+    
+    @Test
+    public void testContainingMultipleTweetsNoResults()	{
+    	List<Tweet> containing = Filter.containing(Arrays.asList(), Arrays.asList("purple"));
+    	assertTrue(containing.isEmpty());
+    }
+    
+    @Test
+    public void testContainingGivenMultipleTweetsMultipleResulsts() {
+        List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet2, tweet3), Arrays.asList("talk"));
         assertTrue(containing.containsAll(Arrays.asList(tweet1, tweet2)));
+    }
+    
+    @Test
+    public void testContainingMultipleTweetsCheckCase()	{
+    	List<Tweet> containing = Filter.containing(Arrays.asList(tweet1, tweet4), Arrays.asList("test"));
+    	assertTrue(containing.containsAll(Arrays.asList(tweet1, tweet4)));
     }
 
 /*
