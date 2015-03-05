@@ -26,11 +26,12 @@ import org.junit.rules.ExpectedException;
  * 
  * Partitions for getMentionedUsers
  *  A. Valid mention or not
- * 	    1. Test for valid mention
+ * 	    1. Test for single valid mention
  * 	    2. Test for two of the same name in different cases
  * 	    3. Test for character before @ sign
  * 	    4. Test for invalid chars in mention
  * 	    5. Test for multiple mentions in one tweet
+ * 		6. Test for no mentions
  *  B. Get mentions from different number of tweets
  *  	1. Given 0 Tweets
  *  	2. Given 1 Tweet
@@ -64,10 +65,10 @@ public class ExtractTest {
         tweet3 = new Tweet(2, "tada", "testestestestest", d3);
         
         tweet4 = new Tweet(3, "alyssa", "@craigdazey is so cool", d1);
-        tweet5 = new Tweet(4, "alyssa", "@CRAIGDAZEY is equally cool", d1);
+        tweet5 = new Tweet(4, "alyssa", "@craigdazey is so cool and @CRAIGDAZEY is equally cool", d1);
         tweet6 = new Tweet(5, "alyssa", "_@craigdazey", d1);
         tweet7 = new Tweet(6, "alyssa", "@craig!!!dazey", d1);
-        tweet8 = new Tweet(7, "alyssa", "@craigdazey @stevieyakkel", d1);
+        tweet8 = new Tweet(7, "alyssa", "@craigdazey @stevieyakkel @drewclark", d1);
         tweet9 = new Tweet(8, "alyssa", "hello world said @drewclark", d1); 
     }
     
@@ -101,11 +102,37 @@ public class ExtractTest {
     }
     
     @Test
+    public void testGetMentionedUsersOneMention() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet4));
+        assertTrue(mentionedUsers.contains("craigdazey"));
+    }
+    
+    @Test
+    public void testGetMentionedUsersSameNameMultipleCase() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet5));
+        assertTrue(mentionedUsers.size() == 1);
+    }
+    
+    @Test
+    public void testGetMentionedUsersMultipleMention() {
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet8));
+        assertEquals(3, mentionedUsers.size());
+        assertTrue(mentionedUsers.contains("drewclark"));
+        assertTrue(mentionedUsers.contains("stevieyakkel"));
+        assertTrue(mentionedUsers.contains("craigdazey"));
+    }
+    
+    @Test
     public void testGetMentionedUsersNoMention() {
         Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet1));
         assertTrue(mentionedUsers.isEmpty());
     }
 
+    @Test
+    public void testGetMentionedUsersNoTweets() {
+    	exception.expect(IllegalArgumentException.class);
+        Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList());
+    }
 /*
  * Warning: all the tests you write here must be runnable against any Extract class that follows
  * the spec.  It will be run against several staff implementations
