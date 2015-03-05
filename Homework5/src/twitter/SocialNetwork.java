@@ -3,9 +3,17 @@
  */
 package twitter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import com.sun.xml.internal.txw2.IllegalAnnotationException;
 
 /**
  * SocialNetwork provides methods that operate on a social network.
@@ -39,7 +47,27 @@ public class SocialNetwork {
      *         either authors or @-mentions in the list of tweets.
      */
     public static Map<String, Set<String>> guessFollowsGraph(List<Tweet> tweets) {
-        throw new RuntimeException("not implemented");
+    	if (tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to guessFollowsGraph method");
+    	Map<String, Set<String>> followers = new HashMap<String, Set<String>>();
+    	
+    	for(Tweet tweet : tweets)	{
+    		Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet));
+    		
+    		for(String mentionedUser : mentionedUsers)	{
+    			if(!followers.containsKey(mentionedUser))	{
+    				followers.put(mentionedUser, new HashSet<String>());
+    			}
+    		}
+    		if(!followers.containsKey(tweet.getAuthor()))	{
+    			followers.put(tweet.getAuthor(), new HashSet<String>());
+    		} 
+    		
+    		for(String user : mentionedUsers)	{
+    			followers.get(tweet.getAuthor()).add(user);
+    		}		
+    	}
+    	
+    	return followers;
     }
 
     /**
@@ -52,6 +80,14 @@ public class SocialNetwork {
      *         descending order of follower count.
      */
     public static List<String> influencers(Map<String, Set<String>> followsGraph) {
-        throw new RuntimeException("not implemented");
+    	if(followsGraph.isEmpty()) throw new IllegalArgumentException("Passed no tweets to influencers method");
+    	List<String> sortedKeys = new ArrayList<String>(followsGraph.keySet());
+    	Collections.sort(sortedKeys, new Comparator<String>()	{
+    		public int compare(String x, String y)	{
+    			return followsGraph.get(y).size() - followsGraph.get(x).size();
+    		}
+    	});
+    	
+    	return sortedKeys;
     }
 }
