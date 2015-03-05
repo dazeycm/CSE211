@@ -1,6 +1,13 @@
 /* Copyright (c) 2007-2014 MIT 6.005 course staff, all rights reserved.
  * Redistribution of original or derived work requires permission of course staff.
  */
+
+/*
+ * Include users if it has : after it?
+ * Where do you want prolog comments?
+ * 
+ */
+
 package twitter;
 
 import twitter4j.TwitterException;
@@ -42,12 +49,18 @@ public class Main {
 
         // display some characteristics about the tweets
         System.err.println("fetched " + tweets.size() + " tweets");
+        
+        for(Tweet tweet : tweets)
+        	System.out.println(tweet);
 
         final Timespan span = Extract.getTimespan(tweets);
         System.err.println("ranging from " + span.getStart() + " to " + span.getEnd());
         
         final Set<String> mentionedUsers = Extract.getMentionedUsers(tweets);
         System.err.println("covers " + mentionedUsers.size() + " Twitter users");
+        
+        for(String s: mentionedUsers)
+        	System.out.println(s);
         
         // infer the follows graph
         final Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(tweets);
