@@ -4,7 +4,7 @@
 
 /*
  * Include users if it has : after it?
- * Where do you want prolog comments?
+ * For what classed do you want prolog comments?
  * 
  */
 
@@ -30,7 +30,7 @@ public class Main {
     /**
      * The query string denoted by the Twitter Search API
      */
-    private static final String QUERY_STRING = "from:MiamiUniversity";
+    private static final String QUERY_STRING = "from:NewYorkFBI";
     
     /**
      * Main method of the program.  Fetches a sample of tweets from a 6.005 and prints some facts about it.
@@ -49,18 +49,12 @@ public class Main {
 
         // display some characteristics about the tweets
         System.err.println("fetched " + tweets.size() + " tweets");
-        
-        for(Tweet tweet : tweets)
-        	System.out.println(tweet);
 
         final Timespan span = Extract.getTimespan(tweets);
         System.err.println("ranging from " + span.getStart() + " to " + span.getEnd());
         
         final Set<String> mentionedUsers = Extract.getMentionedUsers(tweets);
         System.err.println("covers " + mentionedUsers.size() + " Twitter users");
-        
-        for(String s: mentionedUsers)
-        	System.out.println(s);
         
         // infer the follows graph
         final Map<String, Set<String>> followsGraph = SocialNetwork.guessFollowsGraph(tweets);
