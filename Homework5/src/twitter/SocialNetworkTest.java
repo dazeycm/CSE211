@@ -27,6 +27,7 @@ import org.junit.rules.ExpectedException;
  * 			a. 0 followers
  * 			b. >0 followers
  * 
+ * Influencers testing partitions
  * 	A. Given empty follower graph
  * 	B. Given one key in follower graph
  * 		1. Without followers

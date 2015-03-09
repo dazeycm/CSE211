@@ -1,18 +1,5 @@
 /* Copyright (c) 2007-2014 MIT 6.005 course staff, all rights reserved.
-
-
  * Redistribution of original or derived work requires permission of course staff.
- */
-
-/* TODO:
- * 	Questions - 
- * 		Include users if it has : after it?
- * 		For what classed do you want prolog comments?
- * 
- * 	Explain why I only do given 0 tweets, and given >0 tweets
- * 	More explanations for chosen partitions
- *  Remove excess, not used tweets and instants from test classes
- * 
  */
 
 package twitter;

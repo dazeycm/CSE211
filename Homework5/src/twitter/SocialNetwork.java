@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.sun.xml.internal.txw2.IllegalAnnotationException;
@@ -58,6 +59,7 @@ public class SocialNetwork {
     				followers.put(mentionedUser, new HashSet<String>());
     			}
     		}
+    		
     		if(!followers.containsKey(tweet.getAuthor()))	{
     			followers.put(tweet.getAuthor(), new HashSet<String>());
     		} 
@@ -68,6 +70,11 @@ public class SocialNetwork {
     	}
     	
     	return followers;
+    }
+    
+    public static Map<String, Set<String>> guessFollowsGraphUsingCommonHashtags(List<Tweet> tweets) {
+    	if (tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to guessFollowsGraph method");
+    	return null;
     }
 
     /**
