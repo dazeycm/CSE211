@@ -72,9 +72,26 @@ public class SocialNetwork {
     	return followers;
     }
     
-    public static Map<String, Set<String>> guessFollowsGraphUsingCommonHashtags(List<Tweet> tweets) {
+    public static Map<String, Set<String>> guessFollowsGraphUsingHashtags(List<Tweet> tweets) {
     	if (tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to guessFollowsGraph method");
     	return null;
+    }
+    
+    public static Map <String, Set<String>> hashtagMap(List<Tweet> tweets){
+    	return null;
+    }
+    
+    public static Set<String> parshHashtags(Tweet tweet){
+    	Set<String> hashtags = new HashSet<String>();
+    	List<String> words = Arrays.asList(tweet.getText().split(" "));
+    	
+    	for(String word: words)	{
+    		word = word.toLowerCase();
+    		if(word.matches("^#[a-z0-9]+$"))	{
+    			hashtags.add(word.substring(1));
+    		}
+    	}
+		return hashtags;
     }
 
     /**
