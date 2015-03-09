@@ -52,6 +52,7 @@ public class SocialNetworkTest {
 	
 	 private static Set<String> drewFollowers;
 	 private static Set<String> brianFollowers;
+	 private static Set<String> craigFollowers;
 	 
 	@BeforeClass
     public static void setUpBeforeClass() {
@@ -75,6 +76,13 @@ public class SocialNetworkTest {
         brianFollowers.add("brian");
         brianFollowers.add("demonsparton117");
         brianFollowers.add("craigdazey");
+        
+        craigFollowers = new HashSet<String>();
+        craigFollowers.add("damonduckett");
+        craigFollowers.add("brian");
+        craigFollowers.add("demonsparton117");
+        craigFollowers.add("craigdazey");
+        craigFollowers.add("alyssa");
     }
 	
 	@Rule
@@ -145,10 +153,12 @@ public class SocialNetworkTest {
         Map<String, Set<String>> followsGraph = new HashMap<>();
         followsGraph.put("drewclark", drewFollowers);
         followsGraph.put("brian", brianFollowers);
+        followsGraph.put("craig", craigFollowers);
         List<String> influencers = SocialNetwork.influencers(followsGraph);
-        assertEquals("brian", influencers.get(0));
-        assertEquals("drewclark", influencers.get(1));
-        assertTrue(influencers.size() == 2);
+        assertEquals("brian", influencers.get(1));
+        assertEquals("drewclark", influencers.get(2));
+        assertEquals("craig",  influencers.get(0));
+        assertTrue(influencers.size() == 3);
     }
 
 /*

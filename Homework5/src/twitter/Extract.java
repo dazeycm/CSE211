@@ -67,7 +67,8 @@ public class Extract {
         	for(String word: words)	{
         		word = word.toLowerCase();
         		if(word.matches("^([^a-z0-9_]@|@)[a-z0-9_]+$"))	{
-        			mentionedUsers.add(word.substring(1));
+        			//mentionedUsers.add(word.substring(1));
+        			mentionedUsers.add(word.substring(word.indexOf("@") + 1));
         		}
         	}
         }

@@ -54,19 +54,15 @@ public class SocialNetwork {
     	for(Tweet tweet : tweets)	{
     		Set<String> mentionedUsers = Extract.getMentionedUsers(Arrays.asList(tweet));
     		
+    		if(!followers.containsKey(tweet.getAuthor()))
+    			followers.put(tweet.getAuthor(), new HashSet<String>());
+    		
     		for(String mentionedUser : mentionedUsers)	{
-    			if(!followers.containsKey(mentionedUser))	{
+    			if(!followers.containsKey(mentionedUser))
     				followers.put(mentionedUser, new HashSet<String>());
-    			}
     		}
     		
-    		if(!followers.containsKey(tweet.getAuthor()))	{
-    			followers.put(tweet.getAuthor(), new HashSet<String>());
-    		} 
-    		
-    		for(String user : mentionedUsers)	{
-    			followers.get(tweet.getAuthor()).add(user);
-    		}		
+    		followers.get(tweet.getAuthor()).addAll(mentionedUsers);		
     	}
     	
     	return followers;
@@ -74,23 +70,48 @@ public class SocialNetwork {
     
     public static Map<String, Set<String>> guessFollowsGraphUsingHashtags(List<Tweet> tweets) {
     	if (tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to guessFollowsGraph method");
-    	return null;
+    	Map<String, Set<String>> followers = new HashMap<String, Set<String>>();
+    	Map<String, Set<String>> hashtagMap = hashtagMap(tweets);
+    	for(Entry<String, Set<String>> entry : hashtagMap.entrySet())	{
+    		for(String user : entry.getValue())	{
+    			if(!followers.containsKey(user))	
+    				followers.put(user, new HashSet<String>());
+    			followers.get(user).addAll(entry.getValue());
+    			followers.get(user).remove(user);
+    		}
+    	}
+    	
+    	return followers;
     }
     
-    public static Map <String, Set<String>> hashtagMap(List<Tweet> tweets){
-    	return null;
+    public static Map<String, Set<String>> hashtagMap(List<Tweet> tweets){
+    	if (tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to hashtagMap method");
+    	HashMap<String, Set<String>> hashtagMap = new HashMap<String, Set<String>>();
+    	
+    	for(Tweet tweet: tweets)	{
+    		Set<String> hashtags = parseHashtags(tweet);
+    		
+    		for(String hashtag : hashtags)	{
+    			if(!hashtagMap.containsKey(hashtag))
+    				hashtagMap.put(hashtag, new HashSet<String>());
+    			
+    			hashtagMap.get(hashtag).add(tweet.getAuthor());
+    		}
+    	}
+    	
+    	return hashtagMap;
     }
     
-    public static Set<String> parshHashtags(Tweet tweet){
+    public static Set<String> parseHashtags(Tweet tweet){
     	Set<String> hashtags = new HashSet<String>();
     	List<String> words = Arrays.asList(tweet.getText().split(" "));
     	
     	for(String word: words)	{
     		word = word.toLowerCase();
-    		if(word.matches("^#[a-z0-9]+$"))	{
+    		if(word.matches("^#[a-z0-9]+$"))
     			hashtags.add(word.substring(1));
-    		}
     	}
+    	
 		return hashtags;
     }
 

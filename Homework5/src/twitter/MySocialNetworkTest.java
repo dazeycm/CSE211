@@ -71,31 +71,31 @@ public class MySocialNetworkTest 	{
 	
 	@Test
 	public void testSingleHashtagParsedCorrectly()	{
-		Set<String> hashtags = SocialNetwork.parshHashtags(tweet1);
+		Set<String> hashtags = SocialNetwork.parseHashtags(tweet1);
 		assertTrue(hashtags.contains("bluesclues"));
 	}
 	
 	@Test
 	public void testMultipleHashtagsParsedCorrectly()	{
-		Set<String> hashtags = SocialNetwork.parshHashtags(tweet2);
+		Set<String> hashtags = SocialNetwork.parseHashtags(tweet2);
 		assertTrue(hashtags.containsAll(Arrays.asList("bluesclues", "gdc")));
 	}
 	
 	@Test
 	public void testNothingBeforeHashtag()	{
-		Set<String> hashtags = SocialNetwork.parshHashtags(tweet6);
+		Set<String> hashtags = SocialNetwork.parseHashtags(tweet6);
 		assertFalse(hashtags.contains("fh3hf"));
 	}
 	
 	@Test
 	public void testOnlyLettersAndNumbersInHashtag()	{
-		Set<String> hashtags = SocialNetwork.parshHashtags(tweet6);
+		Set<String> hashtags = SocialNetwork.parseHashtags(tweet6);
 		assertFalse(hashtags.contains("!!!fail"));
 	}
 	
 	@Test
 	public void testCaseInsensitivityInHashtag()	{
-		Set<String> hashtags = SocialNetwork.parshHashtags(tweet6);
+		Set<String> hashtags = SocialNetwork.parseHashtags(tweet6);
 		assertFalse(hashtags.contains("GdC"));
 	}
 	
@@ -125,7 +125,7 @@ public class MySocialNetworkTest 	{
 		Map<String, Set<String>> hashtagMap = SocialNetwork.hashtagMap(Arrays.asList(tweet1, tweet7));
 		assertTrue(hashtagMap.containsKey("bluesclues"));
 		assertEquals(1, hashtagMap.keySet().size());
-		assertTrue(hashtagMap.get("bluesclues").containsAll(Arrays.asList("craigdazey", "damonduckett")));
+		assertTrue(hashtagMap.get("bluesclues").containsAll(Arrays.asList("craigdazey", "damonducket")));
 	}
 	
 	@Test

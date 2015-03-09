@@ -2,6 +2,18 @@
  * Redistribution of original or derived work requires permission of course staff.
  */
 
+/* TODO:
+ * 	Questions - 
+ * 		Include users if it has : after it?
+ * 		For what classed do you want prolog comments?
+ * 
+ * 	Explain why I only do given 0 tweets, and given >0 tweets
+ * 	More explanations for chosen partitions
+ *  Remove excess, not used tweets and instants from test classes
+ *  Specs for socialnetwork custom methods
+ * 
+ */
+
 package twitter;
 
 import twitter4j.TwitterException;
@@ -24,7 +36,7 @@ public class Main {
     /**
      * The query string denoted by the Twitter Search API
      */
-    private static final String QUERY_STRING = "from:MiamiUniversity";
+    private static final String QUERY_STRING = "from:weismanjake";
     
     /**
      * Main method of the program.  Fetches a sample of tweets from a 6.005 and prints some facts about it.
@@ -34,8 +46,6 @@ public class Main {
 
         final List<Tweet> tweets;
         
-        System.out.println(Math.tan(90));
-
         try {
             System.err.println("fetching tweets for query: " + QUERY_STRING);
             tweets = TweetConverter.convertTweets(TweetGenerator.generateTweets(QUERY_STRING));
@@ -45,7 +55,7 @@ public class Main {
 
         // display some characteristics about the tweets
         System.err.println("fetched " + tweets.size() + " tweets");
-
+        
         final Timespan span = Extract.getTimespan(tweets);
         System.err.println("ranging from " + span.getStart() + " to " + span.getEnd());
         
