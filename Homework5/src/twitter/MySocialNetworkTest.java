@@ -51,7 +51,6 @@ public class MySocialNetworkTest 	{
 	private static Tweet tweet6;
 	private static Tweet tweet7;
 	
-	
 	@BeforeClass
     public static void setUpBeforeClass() {
         Instant d1 = Instant.parse("2014-09-14T10:00:00Z");
