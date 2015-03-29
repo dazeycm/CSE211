@@ -11,6 +11,14 @@ import java.util.Scanner;
 
 import org.apache.commons.io.*;
 
+/*
+ * TODO:
+ * Tests
+ * More error checking
+ * questions:
+ * 		Can I use the external library?
+ */
+
 public class TurtleParser {
 
 	final boolean CRAIGDEBUG = true;
@@ -28,7 +36,6 @@ public class TurtleParser {
 		for(String part : parts)	{
 			part = part.trim();
 		}
-		
 		
 		if(!fileContents.get(currentLine).contains(in))	{
 			System.out.println(fileContents.get(currentLine));
@@ -164,7 +171,6 @@ public class TurtleParser {
 		}
 	}
 	
-
 	public static void main(String[] args) throws IOException {
 		TurtleParser parser = new TurtleParser();
 		Scanner kb = new Scanner(System.in);
