@@ -1,5 +1,16 @@
 package twitter;
 
+/*
+ * Craig Dazey
+ * Dr. Kiper
+ * 3-10-2015
+ * CSE 211
+ * Followed requirements set by others to implement code, used existing specifications to implement methods, and wrote tests for methods.
+ * Assignment 5
+ */
+
+//Tester class for my guessFollowersGraph method
+
 import static org.junit.Assert.*;
 
 import java.time.Instant;
@@ -50,7 +61,6 @@ public class MySocialNetworkTest 	{
 	private static Tweet tweet5;
 	private static Tweet tweet6;
 	private static Tweet tweet7;
-	
 	
 	@BeforeClass
     public static void setUpBeforeClass() {

@@ -3,6 +3,15 @@
  */
 package twitter;
 
+/*
+ * Craig Dazey
+ * Dr. Kiper
+ * 3-10-2015
+ * CSE 211
+ * Followed requirements set by others to implement code, used existing specifications to implement methods, and wrote tests for methods.
+ * Assignment 5
+ */
+
 import static org.junit.Assert.*;
 
 import java.time.Instant;

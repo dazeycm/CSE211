@@ -68,6 +68,16 @@ public class SocialNetwork {
     	return followers;
     }
     
+    /**
+     * Guess who might follow whom, from evidence found in tweets.
+     * 
+     * @param tweets
+     *            a list of tweets providing the evidence, not modified by this
+     *            method.
+     * @return a social network (as defined above) in which Ernie follows Bert
+     *         if and only if there is evidence for it in the given list of
+     *         tweets. For this method, the evidence is two tweets having the same hashtags.
+     */
     public static Map<String, Set<String>> guessFollowsGraphUsingHashtags(List<Tweet> tweets) {
     	if (tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to guessFollowsGraph method");
     	Map<String, Set<String>> followers = new HashMap<String, Set<String>>();
@@ -84,6 +94,14 @@ public class SocialNetwork {
     	return followers;
     }
     
+    /**
+     * Create a hashtagmap from a list of tweets
+     * 
+     * @param tweets
+     * 			a list of tweets providing the evidence, not modified by this
+     *          method.
+     * @return a hashtagMap. The key will be a hashtag, and the set<string> will be a list of usernames.
+     */
     public static Map<String, Set<String>> hashtagMap(List<Tweet> tweets){
     	if (tweets.isEmpty()) throw new IllegalArgumentException("Passed no tweets to hashtagMap method");
     	HashMap<String, Set<String>> hashtagMap = new HashMap<String, Set<String>>();
@@ -102,6 +120,14 @@ public class SocialNetwork {
     	return hashtagMap;
     }
     
+    /**
+     * Parse hashtags from a given tweet
+     * 
+     * @param tweet
+     * 			A tweet
+     * @return
+     * 			a set of all of the hashtags in the tweet
+     */
     public static Set<String> parseHashtags(Tweet tweet){
     	Set<String> hashtags = new HashSet<String>();
     	List<String> words = Arrays.asList(tweet.getText().split(" "));
