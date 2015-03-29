@@ -2,21 +2,27 @@ package Turtle;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
 //C:\Users\Craig\Desktop\test.txt
 
+//Dont actually call block in loop. Is this okay? 
+//Test
+//Header comments
+
 public class TurtleRDP {
+	
+	final boolean CRAIGDEBUG = true;
 	
 	String current;
 	String filePath;
-	Scanner kb = new Scanner(System.in);
 	Scanner fileInput;
+	Scanner kb = new Scanner(System.in);
 	DrawableTurtle spud;
 	boolean inLoop = false;
-	boolean alreadyMatchedBegin = false;
-	boolean alreadyMatchedEnd = false;
+	ArrayList<String> statements = new ArrayList<String>();
 	
 	public void match(String in)	{
 		if(!current.equals(in))	{
@@ -27,7 +33,6 @@ public class TurtleRDP {
 	
 	public void program()	{
 		spud = new DrawableTurtle();
-		
 		try {
 			fileInput = new Scanner(new File(filePath));
 		} catch (FileNotFoundException e) {
@@ -42,22 +47,16 @@ public class TurtleRDP {
 	}
 	
 	public void block()	{
-		if(!inLoop && !alreadyMatchedBegin)	{
-			current = fileInput.nextLine();
-			match("begin");
-			alreadyMatchedBegin = true;
-		}
-		
 		current = fileInput.nextLine();
+		match("begin");
+		
 		statementList();
 		
-		if(!inLoop && !alreadyMatchedBegin)	{
-			match("end");
-			alreadyMatchedEnd = true;
-		}
+		match("end");
 	}
 	
 	public void statementList()	{
+		current = fileInput.nextLine();
 		statement();
 		current = fileInput.nextLine();
 		if(!current.equals("end"))	{
@@ -68,6 +67,8 @@ public class TurtleRDP {
 	
 	public void statement()	{
 		if(current.contains("loop")){
+			doStatements();
+			inLoop = true;
 			count();
 		}
 		else {
@@ -76,6 +77,10 @@ public class TurtleRDP {
 		
 	}
 	
+	private void doStatements() {
+		//do statements here
+	}
+
 	public void command()	{
 		if(current.contains("forward"))	{
 			distance();	
@@ -89,6 +94,14 @@ public class TurtleRDP {
 		}
 	}
 	
+	public void count()	{
+		String[] parts = current.split("\t");
+		int count = number(parts[1]);
+		for(int i = 0; i < count; i++)	{
+			block();
+		}
+	}
+	
 	public void distance()	{
 		String[] parts = current.split("\t");
 		int distance = number(parts[1]);
@@ -97,7 +110,7 @@ public class TurtleRDP {
 			System.out.println("Distance must be greater than 0");
 			System.exit(0);
 		}
-		spud.forward(distance);
+		statements.add("forward " + distance);
 	}
 	
 	public void angle()	{
@@ -108,20 +121,9 @@ public class TurtleRDP {
 			System.out.println("Angle must be greater than 0");
 			System.exit(0);
 		}
-		spud.turn(angle);
+		statements.add("turn " + angle);
 	}
 	
-	public void count()	{
-		String[] parts = current.split("\t");
-		int count = number(parts[1]);
-		inLoop = true;
-		for(int i = 0; i < count; i++)	{
-			block();
-		}
-		inLoop = false;
-		alreadyMatchedBegin = false;
-		alreadyMatchedEnd = false;
-	}
 	public int number(String num)	{
 		int ret = Integer.parseInt(num);
 		if(ret < 0)	{
@@ -133,8 +135,12 @@ public class TurtleRDP {
 	
 	public static void main(String[] args) {
 		TurtleRDP parse = new TurtleRDP();
-		System.out.println("Please enter a full file path: ");
-		parse.filePath = parse.kb.nextLine();
+		if(!parse.CRAIGDEBUG)	{
+			System.out.println("Please enter a full file path: ");
+			parse.filePath = parse.kb.nextLine();
+		} else 	{
+			parse.filePath = args[0];
+		}
 		parse.program();
 	}
 
