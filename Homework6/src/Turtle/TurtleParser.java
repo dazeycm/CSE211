@@ -15,6 +15,7 @@ import org.apache.commons.io.*;
  * TODO:
  * Tests
  * More error checking
+ * "Prolog comments"
  * questions:
  * 		Can I use the external library?
  */
