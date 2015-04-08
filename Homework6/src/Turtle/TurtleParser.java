@@ -12,6 +12,15 @@ import java.util.Scanner;
 import org.apache.commons.io.*;
 
 /*
+ * Craig Dazey
+ * Dr. Kiper
+ * 4-08-2015
+ * CSE 211
+ * Writing specifications and tests, as well as a recursive descent parser. 
+ * Assignment 6
+ */
+
+/*
  * TODO:
  * Tests
  * More error checking
