@@ -20,21 +20,13 @@ import org.apache.commons.io.*;
  * Assignment 6
  */
 
-/*
- * TODO:
- * Tests
- * More error checking
- * "Prolog comments"
- * questions:
- * 		Can I use the external library?
- */
 
 public class TurtleParser {
 
 	final boolean CRAIGDEBUG = true;
 	
 	String filePath;
-	int currentLine;
+	int currentLine = 0;
 	int loopCount;
 	List<String> fileContents;
 	File file;
@@ -42,12 +34,10 @@ public class TurtleParser {
 	HashMap<String, Integer> vars;
 	
 	/**
-	 * 
 	 * @param in is a string that you want to match
 	 * @return true if the currentline of the file contains a the string in. false if the currentline
 	 * does not contains the string in.
 	 * @modifies nothing
-	 * 
 	 * Match looks for a string inside of the currentLine
 	 */
 	public boolean match(String in) {
@@ -71,8 +61,8 @@ public class TurtleParser {
 	}
 	
 	/**
-	 * 
-	 * @return the string "block" if the method reached its end.
+	 * @requires nothing
+	 * @return the string "program" if the method reached its end.
 	 * @throws Exception if "programEnd" is not matched in the currentLine
 	 * @modifies fileContents
 	 */
@@ -80,7 +70,6 @@ public class TurtleParser {
 		spud = new DrawableTurtle();
 		file = new File(filePath);
 		vars = new HashMap<String, Integer>();
-		currentLine = 0;
 		
 		fileContents = (ArrayList<String>) FileUtils.readLines(file);
 				
@@ -88,13 +77,14 @@ public class TurtleParser {
 		if (!match("programEnd"))
 			throw new Exception("Syntax error");
 		spud.draw();
-		return "block";
+		return "program";
 	}
 
 	/**
-	 * 
-	 * @return the string "statementlist" is the method reaches its end
+	 * @requires nothing
+	 * @return the string "block" if the method reaches its end
 	 * @throws Exception if it fails to match "being" or "end" in the currentline
+	 * @modifies nothing
 	 */
 	public String block() throws Exception {
 		if(!match("begin"))
@@ -104,9 +94,15 @@ public class TurtleParser {
 		
 		if(!match("end"))
 			throw new Exception("Syntax error");
-		return "statementlist";
+		return "block";
 	}
 
+	/**
+	 * @requires nothing
+	 * @return the string "statement" if the method reaches its end
+	 * @throws Exception if statement method throws an exception
+	 * @modifies nothing
+	 */
 	public String statementList() throws Exception {
 		statement();
 		
@@ -117,6 +113,12 @@ public class TurtleParser {
 		return "statement";
 	}
 	
+	/**
+	 * @requires nothing
+	 * @return "loop" is current line contains loop, "command" if current line contains command
+	 * @throws Exception if loop or command not present on current line
+	 * @modifies nothing
+	 */
 	public String statement() throws Exception	{
 		if(fileContents.get(currentLine).contains("loop"))	{
 			loop();
@@ -133,6 +135,12 @@ public class TurtleParser {
 		}
 	}
 	
+	/**
+	 * @requires nothing
+	 * @return the string "looping" if the method reaches its end
+	 * @throws Exception if it doesn't match loop on the currentline
+	 * @modifies resetline and currentline
+	 */
 	public String loop() throws Exception	{
 		if(!match("loop"))
 			throw new Exception("Syntax error");
@@ -145,6 +153,13 @@ public class TurtleParser {
 		return "looping";
 	}
 	
+	/**
+	 * @requires nothing
+	 * @return "forward" if forward command on currentline. "turn" if turn command on currentline. 
+	 * "assignment" if assignment took place on currentline
+	 * @throws Exception if it doesn't match forward turn or =, or if it doesn't find a command on the currentline
+	 * @modifies nothing
+	 */
 	public String command() throws Exception	{
 		if(fileContents.get(currentLine).contains("forward"))	{
 			if(!match("forward"))
@@ -169,6 +184,12 @@ public class TurtleParser {
 		}
 	}
 	
+	/**
+	 * @requires nothing
+	 * @return assigned if variable is succesfully assigned on the currentline
+	 * @throws Exception if variable was not succesffully assigned on the currentline
+	 * @modifies vars
+	 */
 	public String assignment() throws Exception	{
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("="));
 		int value = Integer.parseInt(parts.get(1).trim());
@@ -182,22 +203,34 @@ public class TurtleParser {
 		}
 	}
 	
+	/**
+	 * @requires nothing
+	 * @return looping if loopcount was succesfully set
+	 * @throws Exception if invalid integer found after loop
+	 * @modifies loopcount
+	 */
 	public String count() throws Exception	{
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("\t"));
 		
 		if(parts.get(1).matches("[0-9]+")) 	{
 			loopCount = Integer.parseInt(parts.get(1));
-			return "looping";
+			return "loop";
 		} 
 		else if(vars.containsKey(parts.get(1)))	{
 			loopCount = vars.get(parts.get(1));
-			return "looping";
+			return "loop";
 		} 
 		else	{
 			throw new Exception("Times to loop was below 0 or not found among variables on line " + (currentLine - 1));
 		}
 	}
 	
+	/**
+	 * @requires nothing
+	 * @return the distance forward the turtle will move
+	 * @throws Exception if distance not found in vars or distance is less than 0
+	 * @modifies nothing
+	 */
 	public int distance() throws Exception	{
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("\t"));
 		
@@ -215,6 +248,12 @@ public class TurtleParser {
 		}
 	}
 	
+	/**
+	 * @requires nothing
+	 * @return the angle in degrees that the turtle will move
+	 * @throws Exception if angle not found in vars or angle is below 0
+	 * @modifies nothing
+	 */
 	public int angle() throws Exception	{
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("\t"));
 		
