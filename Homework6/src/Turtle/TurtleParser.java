@@ -23,7 +23,7 @@ import org.apache.commons.io.*;
 
 public class TurtleParser {
 
-	final boolean CRAIGDEBUG = true;
+	final boolean CRAIGDEBUG = false;
 	
 	String filePath;
 	int currentLine = 0;
@@ -41,13 +41,12 @@ public class TurtleParser {
 	 * Match looks for a string inside of the currentLine
 	 */
 	public boolean match(String in) {
-		List<String> parts = Arrays.asList(in.split(" "));
+		List<String> parts = Arrays.asList(fileContents.get(currentLine).split("\t"));
 		for(String part : parts)	{
 			part = part.trim();
 		}
 		
 		if(!fileContents.get(currentLine).contains(in))	{
-			System.out.println(fileContents.get(currentLine));
 			System.out.println("Error! Found the part(s): ");
 			for(String part : parts)	{
 				System.out.println(part);
@@ -131,7 +130,7 @@ public class TurtleParser {
 					return "command";
 		}
 		else	{
-			throw new Exception("Expected statement on " + currentLine + " but didn't find one");
+			throw new Exception("Expected statement or end on line " + currentLine + " but didn't find one");
 		}
 	}
 	
