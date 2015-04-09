@@ -65,16 +65,21 @@ public class TurtleParser {
 	 * @throws Exception if "programEnd" is not matched in the currentLine
 	 * @modifies fileContents
 	 */
-	public String program() throws Exception	{
+	public String program() {
 		spud = new DrawableTurtle();
 		file = new File(filePath);
 		vars = new HashMap<String, Integer>();
 		
-		fileContents = (ArrayList<String>) FileUtils.readLines(file);
+		try {
+			fileContents = (ArrayList<String>) FileUtils.readLines(file);
+		} catch (IOException e) {
+			System.out.println("Failed to read file!");
+		}
 				
 		block();
 		if (!match("programEnd"))
-			throw new Exception("Syntax error");
+				throw new IllegalArgumentException("Syntax error");
+			
 		spud.draw();
 		return "program";
 	}
@@ -85,14 +90,14 @@ public class TurtleParser {
 	 * @throws Exception if it fails to match "being" or "end" in the currentline
 	 * @modifies nothing
 	 */
-	public String block() throws Exception {
+	public String block() {
 		if(!match("begin"))
-			throw new Exception("Syntax error");
+			throw new IllegalArgumentException("Syntax error");
 		
 		statementList();
 		
 		if(!match("end"))
-			throw new Exception("Syntax error");
+			throw new IllegalArgumentException("Syntax error");
 		return "block";
 	}
 
@@ -102,7 +107,7 @@ public class TurtleParser {
 	 * @throws Exception if statement method throws an exception
 	 * @modifies nothing
 	 */
-	public String statementList() throws Exception {
+	public String statementList() {
 		statement();
 		
 		if(!fileContents.get(currentLine).equals("end"))	{
@@ -118,7 +123,7 @@ public class TurtleParser {
 	 * @throws Exception if loop or command not present on current line
 	 * @modifies nothing
 	 */
-	public String statement() throws Exception	{
+	public String statement() {
 		if(fileContents.get(currentLine).contains("loop"))	{
 			loop();
 			return "loop";
@@ -130,7 +135,7 @@ public class TurtleParser {
 					return "command";
 		}
 		else	{
-			throw new Exception("Expected statement or end on line " + currentLine + " but didn't find one");
+			throw new IllegalArgumentException("Expected statement or end on line " + currentLine + " but didn't find one");
 		}
 	}
 	
@@ -140,9 +145,9 @@ public class TurtleParser {
 	 * @throws Exception if it doesn't match loop on the currentline
 	 * @modifies resetline and currentline
 	 */
-	public String loop() throws Exception	{
+	public String loop() {
 		if(!match("loop"))
-			throw new Exception("Syntax error");
+			throw new IllegalArgumentException("Syntax error");
 		count();
 		int resetLine = currentLine;
 		for(int i = 0; i < loopCount; i++)	{
@@ -154,47 +159,47 @@ public class TurtleParser {
 	
 	/**
 	 * @requires nothing
-	 * @return "forward" if forward command on currentline. "turn" if turn command on currentline. 
+	 * @return "forward" if forward command on currentline. "turn" if turn command on currentline. "failed" if exception is thrown
 	 * "assignment" if assignment took place on currentline
 	 * @throws Exception if it doesn't match forward turn or =, or if it doesn't find a command on the currentline
 	 * @modifies nothing
 	 */
-	public String command() throws Exception	{
+	public String command() {
 		if(fileContents.get(currentLine).contains("forward"))	{
 			if(!match("forward"))
-				throw new Exception("Syntax error");
+				throw new IllegalArgumentException("Syntax error");
 			distance();
 			return "forward";
 		}
 		else if(fileContents.get(currentLine).contains("turn"))	{
 			if(!match("turn"))
-				throw new Exception("Syntax error");
+				throw new IllegalArgumentException("Syntax error");
 			angle();
 			return "turn";
 		}
 		else if(fileContents.get(currentLine).contains("="))	{
 			if(!match("="))
-				throw new Exception("Syntax error");
+				throw new IllegalArgumentException("Syntax error");
 			assignment();
 			return "assignment";
 		}
 		else	{
-			throw new Exception("Expected to find command on line " + currentLine + " but didn't.");
+			throw new IllegalArgumentException("Expected to find command on line " + currentLine + " but didn't.");
 		}
 	}
 	
 	/**
 	 * @requires nothing
-	 * @return assigned if variable is succesfully assigned on the currentline
-	 * @throws Exception if variable was not succesffully assigned on the currentline
+	 * @return "assigned" if variable is successfully assigned on the currentline
+	 * @throws Exception if variable was not successfully assigned on the currentline
 	 * @modifies vars
 	 */
-	public String assignment() throws Exception	{
+	public String assignment() {
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("="));
 		int value = Integer.parseInt(parts.get(1).trim());
 		
 		if(value < 0)	{
-			throw new Exception("Number in assignment on line " + (currentLine - 1) + " must be greater than 0");
+			throw new IllegalArgumentException("Number in assignment on line " + (currentLine - 1) + " must be greater than 0");
 		}
 		else {
 			vars.put(parts.get(0).trim(), value);
@@ -204,11 +209,11 @@ public class TurtleParser {
 	
 	/**
 	 * @requires nothing
-	 * @return looping if loopcount was succesfully set
+	 * @return "looping" if loopcount was successfully set
 	 * @throws Exception if invalid integer found after loop
 	 * @modifies loopcount
 	 */
-	public String count() throws Exception	{
+	public String count() {
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("\t"));
 		
 		if(parts.get(1).matches("[0-9]+")) 	{
@@ -220,7 +225,7 @@ public class TurtleParser {
 			return "loop";
 		} 
 		else	{
-			throw new Exception("Times to loop was below 0 or not found among variables on line " + (currentLine - 1));
+			throw new IllegalArgumentException("Times to loop was below 0 or not found among variables on line " + (currentLine - 1));
 		}
 	}
 	
@@ -230,7 +235,7 @@ public class TurtleParser {
 	 * @throws Exception if distance not found in vars or distance is less than 0
 	 * @modifies nothing
 	 */
-	public int distance() throws Exception	{
+	public int distance()	{
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("\t"));
 		
 		if(parts.get(1).matches("[0-9]+"))	{
@@ -243,7 +248,7 @@ public class TurtleParser {
 			return vars.get(parts.get(1));
 		}
 		else	{
-			throw new Exception("Distance to move was below 0 or not found among variables on line " + (currentLine - 1));
+			throw new IllegalArgumentException("Distance to move was below 0 or not found among variables on line " + (currentLine - 1));
 		}
 	}
 	
@@ -253,7 +258,7 @@ public class TurtleParser {
 	 * @throws Exception if angle not found in vars or angle is below 0
 	 * @modifies nothing
 	 */
-	public int angle() throws Exception	{
+	public int angle() {
 		List<String> parts = Arrays.asList(fileContents.get(currentLine - 1).split("\t"));
 		
 		if(parts.get(1).matches("[0-9]+"))	{
@@ -266,11 +271,11 @@ public class TurtleParser {
 			return vars.get(parts.get(1));
 		}
 		else	{
-			throw new Exception("Angle to turn was below 0 or not found among variables on line " + (currentLine - 1));
+			throw new IllegalArgumentException("Angle to turn was below 0 or not found among variables on line " + (currentLine - 1));
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args)  {
 		TurtleParser parser = new TurtleParser();
 		Scanner kb = new Scanner(System.in);
 		

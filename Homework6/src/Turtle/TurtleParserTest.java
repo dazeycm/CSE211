@@ -12,6 +12,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+/*
+ * Craig Dazey
+ * Dr. Kiper
+ * 4-08-2015
+ * CSE 211
+ * Tester class for turtle parser.
+ * Assignment 6
+ */
+
 public class TurtleParserTest {
 
 	static TurtleParser tp;
@@ -39,135 +48,80 @@ public class TurtleParserTest {
 	@Test
 	public void testProgram()	{
 		tp.currentLine = 2;
-		try {
-			assertEquals("program", tp.program());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals("program", tp.program());
 	}
 	
 	@Test
 	public void testBlock()	{
 		tp.currentLine = 2;
-		try	{
- 			assertEquals("block", tp.block());
-		} catch (Exception e)	{
-			e.printStackTrace();
-		}
+ 		assertEquals("block", tp.block());
 	}
 	
 	@Test
 	public void testStatementList()	{
 		tp.currentLine = 3;
-		try {
-			assertEquals("statement", tp.statementList());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals("statement", tp.statementList());
 		
 	}
 	
 	@Test
 	public void testStatementLoop()	{
 		tp.currentLine = 8;
-		try {
-			assertEquals("loop", tp.statement());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals("loop", tp.statement());
 	}
 	
 	@Test
 	public void testStatementCommand()	{
 		tp.currentLine = 5;
-		try {
-			assertEquals("command", tp.statement());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals("command", tp.statement());
 	}
 	
 	@Test
 	public void testLoop()	{
 		tp.currentLine = 8;
-		try {
-			assertEquals("looping", tp.loop());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals("looping", tp.loop());
 	}
 	
 	@Test
 	public void testCommandForward()	{
 		tp.currentLine = 4;
-		try {
-			assertEquals("forward", tp.command());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		assertEquals("forward", tp.command());
 	}
 	
 	@Test
 	public void testCommandTurn()	{
 		tp.currentLine = 5;
-		try {
-			assertEquals("turn", tp.command());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		assertEquals("turn", tp.command());
 	}
 	
 	@Test
 	public void testCommandAssignment()	{
 		tp.currentLine = 7;
-		try {
-			assertEquals("assignment", tp.command());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
+		assertEquals("assignment", tp.command());
 	}
 	
 	@Test
 	public void testAssignment()	{
 		tp.currentLine = 7;
-		try {
-			assertEquals("assigned", tp.assignment());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals("assigned", tp.assignment());
 	}
 	
 	@Test
 	public void testCount()	{
 		tp.currentLine = 9;
-		try {
-			assertEquals("loop", tp.count());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals("loop", tp.count());
 	}
 	
 	@Test
 	public void testDistance()	{
 		tp.currentLine = 5;
-		try {
-			assertEquals(10, tp.distance());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals(10, tp.distance());
 	}
 	
 	@Test
 	public void testAngle()	{
 		tp.currentLine = 6;
-		try {
-			assertEquals(90, tp.angle());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		assertEquals(90, tp.angle());
 	}
 
 }
